@@ -14,6 +14,17 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.btn-symmetric {
+    position: relative;
+    width: 10%;
+}
+
+.btn-symmetric:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
 .content {
     padding-top: 1.1rem;
 }

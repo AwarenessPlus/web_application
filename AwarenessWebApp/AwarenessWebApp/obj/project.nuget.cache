@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "50GOezMVQYjnUXLrlHiWAk16y3mVQZlqEn1QVcMfLhMWEYQQ11z1O4OYXRltGAcQDlY3OzeDTh8b89HJoN5Ehg==",
+  "dgSpecHash": "317w4u5nmYjgD6KS3NdvwW0KlVswbNjFKiWZkf5LhwHLx0z6turvpObD7WWFjZIMxmIqiuKzOBe3NiA5acQ76w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\57302\\Documents\\Andres\\Tesis\\AwarenessWebApp\\AwarenessWebApp\\AwarenessWebApp.csproj",
+  "projectFilePath": "C:\\Users\\57302\\Documents\\Andres\\Tesis\\web_app_andres\\web_application\\AwarenessWebApp\\AwarenessWebApp\\AwarenessWebApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\57302\\.nuget\\packages\\microsoft.aspnetcore.authorization\\5.0.10\\microsoft.aspnetcore.authorization.5.0.10.nupkg.sha512",
     "C:\\Users\\57302\\.nuget\\packages\\microsoft.aspnetcore.components\\5.0.10\\microsoft.aspnetcore.components.5.0.10.nupkg.sha512",

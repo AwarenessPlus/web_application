@@ -82,8 +82,9 @@ using AwarenessWebApp.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/home")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(LoginLayout))]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/about")]
+    public partial class AboutApplication : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)

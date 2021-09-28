@@ -2,41 +2,43 @@
 @page "/"
 
 <center>
-    <div class="card col-lg-4 rounded-lg">
-        <div class="card-body">
-            <div class="d-flex justify-content-between bd-highlight mb-3">
-                <div class="p-2 bd-highlight"></div>
-                <div class="row col-8 p-2 bd-highlight">
-                    <img src="./img/logo.png" class="img-fluid" />
+    <div class="card-holder">
+        <div class="card col-lg-4 rounded-lg">
+            <div>
+                <div class="d-flex justify-content-between bd-highlight mb-3">
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="row col-8 p-2 bd-highlight">
+                        <img src="./img/logo.png" class="img-fluid" />
+                    </div>
+                    <button type="button" class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="about">
+                        <span class="oi oi-info" aria-hidden="true" data-toggle="tooltip" title="Acerca del software"></span>
+                    </button>
                 </div>
-                <button type="button" class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="about"> 
-                    <span class="oi oi-info"  aria-hidden="true" data-toggle="tooltip" title="Acerca del software"></span>
-                </button>
+                <hr />
+
+                <h3>Iniciar Sesión</h3>
+                <form>
+                    <div class="form-group">
+                        <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
+                        <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
+                    </div>
+                    <div class="form-group">
+                        <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-check mr-auto p-4">
+                            <input type="radio" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                        </div>
+                        <div class="form-check p-4">
+                            <a href="/singup" class="link-primary">No tengo cuenta</a>
+                        </div>
+                    </div>
+                    <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Iniciar Sesión</a>
+
+                </form>
             </div>
-            <hr />
-
-            <h3>Iniciar Sesión</h3>
-            <form>
-                <div class="form-group">
-                    <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
-                    <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
-                </div>
-                <div class="form-group">
-                    <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
-                </div>
-                <div class="d-flex">
-                    <div class="form-check mr-auto p-4">
-                        <input type="radio" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
-                    </div>
-                    <div class="form-check p-4">
-                        <a href="/singup" class="link-primary">No tengo cuenta</a>
-                    </div>
-                </div>
-                <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Iniciar Sesión</a>
-
-            </form>
         </div>
     </div>
 </center>

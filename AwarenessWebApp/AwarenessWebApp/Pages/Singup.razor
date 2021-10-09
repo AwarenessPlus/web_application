@@ -1,6 +1,7 @@
 ﻿@layout LoginLayout
 @page "/singup"
 
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
 <center>
     <div class="card-holder">
         <div class="card col-lg-4 rounded-lg">
@@ -17,26 +18,62 @@
                 <hr />
 
                 <h3>Registrarse</h3>
-                <form>
-                    <div class="form-group">
-                        <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
-                        <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
-                    </div>
-                    <div class="form-group">
-                        <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
-                    </div>
-                    <div class="d-flex">
-                        <div class="form-check mr-auto p-4">
-                            <input type="radio" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                <div style="padding: 10px;">
+                    <form>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputUser">Nombres</label>
+                                <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputPassword">Apellidos</label>
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                            </div>
                         </div>
-                        <div class="form-check p-4">
-                            <a href="" class="link-primary">O inicia sesión</a>
+
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
+                            <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
                         </div>
-                    </div>
-                    <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Iniciar Sesión</a>
-                </form>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputPassword">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputUser">Edad</label>
+                                <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
+                            </div>
+                            <div class="col-md-6 dropdown show">
+                                <label class="d-flex justify-content-start" for="inputUser">Rotación</label>
+                                <div class="btn-group d-flex justify-content-start">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione la rotación
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item" type="button">1</button>
+                                        <button class="dropdown-item" type="button">2 action</button>
+                                        <button class="dropdown-item" type="button">3 else here</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-check mr-auto p-4">
+                                <input type="radio" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                            </div>
+                            <div class="form-check p-4">
+                                <a href="" class="link-primary">O inicia sesión</a>
+                            </div>
+                        </div>
+                        <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Registrarme</a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

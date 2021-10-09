@@ -1,6 +1,7 @@
 ﻿@layout LoginLayout
 @page "/"
 
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
 <center>
     <div class="card-holder">
         <div class="card col-lg-4 rounded-lg">
@@ -17,27 +18,28 @@
                 <hr />
 
                 <h3>Iniciar Sesión</h3>
-                <form>
-                    <div class="form-group">
-                        <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
-                        <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
-                    </div>
-                    <div class="form-group">
-                        <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
-                    </div>
-                    <div class="d-flex">
-                        <div class="form-check mr-auto p-4">
-                            <input type="radio" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                <div style="padding: 10px;">
+                    <form>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
+                            <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder="Ingresa el usuario">
                         </div>
-                        <div class="form-check p-4">
-                            <a href="/singup" class="link-primary">No tengo cuenta</a>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
                         </div>
-                    </div>
-                    <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Iniciar Sesión</a>
-
-                </form>
+                        <div class="d-flex">
+                            <div class="form-check mr-auto p-4">
+                                <input type="radio" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                            </div>
+                            <div class="form-check p-4">
+                                <a href="/singup" class="link-primary">No tengo cuenta</a>
+                            </div>
+                        </div>
+                        <a class="btn btn-outline-primary rounded-pill btn-block" href="home" role="button">Iniciar Sesión</a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

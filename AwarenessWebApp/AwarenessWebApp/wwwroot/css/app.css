@@ -2,6 +2,12 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-image: url("../img/login_background.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Quicksand', sans-serif;
 }
 
 a, .btn-link {
@@ -12,6 +18,36 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}
+
+.card {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 6fr 1fr;
+}
+
+.card div {
+    grid-row: 2/3;
+}
+.btn-symmetric-xl {
+    position: relative;
+    width: 10%;
+    width: 300px;
+    height: 300px;
+}
+.btn-symmetric {
+    position: relative;
+    width: 10%;
+    width: 40px;
+    height: 40px;
+}
+
+.btn-symmetric:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
 }
 
 .content {

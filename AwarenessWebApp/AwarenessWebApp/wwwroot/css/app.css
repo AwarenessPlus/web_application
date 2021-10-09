@@ -21,6 +21,7 @@ a, .btn-link {
 }
 
 .card {
+    /* other default style */
     grid-row: 2/3;
     grid-column: 2/3;
     margin: 0 auto;
@@ -31,12 +32,7 @@ a, .btn-link {
 .card div {
     grid-row: 2/3;
 }
-.btn-symmetric-xl {
-    position: relative;
-    width: 10%;
-    width: 300px;
-    height: 300px;
-}
+
 .btn-symmetric {
     position: relative;
     width: 10%;

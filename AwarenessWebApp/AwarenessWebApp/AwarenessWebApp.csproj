@@ -15,4 +15,8 @@
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\model_domain-main\domain_model_app\DomainModel\DomainModel.csproj" />
+  </ItemGroup>
+
 </Project>

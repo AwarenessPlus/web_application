@@ -13,71 +13,78 @@ namespace AwarenessWebApp.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 1 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 2 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 3 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 4 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 5 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 6 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 7 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 8 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 9 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 10 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Shared;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 11 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+using AwarenessWebApp.Server;
 
 #line default
 #line hidden
@@ -91,7 +98,7 @@ using AwarenessWebApp.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 9 "D:\U\2021\2021-02\Tesis\web_application\AwarenessWebApp\AwarenessWebApp\Pages\IniciarProcedimiento.razor"
+#line 9 "D:\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\Pages\IniciarProcedimiento.razor"
        
     private int currentCount = 0;
 

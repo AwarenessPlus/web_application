@@ -1,0 +1,96 @@
+﻿@layout LoginLayout
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@inject ILoginService loginService
+
+@page "/"
+
+<div class="body-login">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
+    <center>
+        <div class="card-holder">
+            <div class="card col-lg-4 rounded-lg">
+                <div>
+                    <div class="d-flex justify-content-between bd-highlight mb-3">
+                        <div class="p-2 bd-highlight"></div>
+                        <div class="row col-8 p-2 bd-highlight">
+                            <img src="./img/logo.png" class="img-fluid" />
+                        </div>
+                        <a class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="aboutApplication">
+                            <span class="oi oi-info" aria-hidden="true" data-toggle="tooltip" href="aboutApplication" title="Acerca del software"></span>
+                        </a>
+                    </div>
+                    <hr />
+
+                    <h3>Iniciar Sesión</h3>
+                    <div style="padding: 10px;">
+                        @if (responseOutput.statusCode != 200)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @responseOutput.msg
+                            </div>
+                        }
+                        <EditForm Model="authDTO">
+                            <DataAnnotationsValidator />
+                            <div class="form-group">
+                                <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
+                                <InputText @bind-Value="authDTO.UserName" class="form-control" id="inputUser" placeholder="Nombre de usuario" />
+                            </div>
+                            <div class="form-group">
+                                <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
+                                <InputText @bind-Value="authDTO.Password" class="form-control" id="inputPassword" type="password" placeholder="Contraseña" />
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-check mr-auto p-4">
+                                    <input type="radio" class="form-check-input" id="exampleCheck1" />
+                                    <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                                </div>
+                                <div class="form-check p-4">
+                                    <a href="/singup" class="link-primary">No tengo cuenta</a>
+                                </div>
+                            </div>
+                            <a class="btn btn-outline-primary rounded-pill btn-block" type="submit" role="button" href="home" @onclick="loginAuthentication">Iniciar Sesión</a>
+                        </EditForm>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</div>
+@code {
+
+    struct ResponseOutput
+    {
+        public string msg;
+        public int statusCode;
+    }
+
+    AuthDTO authDTO = new AuthDTO();
+    ResponseOutput responseOutput;
+    HttpResponseMessage response;
+
+    private async Task loginAuthentication()
+    {
+        var auth = JsonContent.Create(authDTO);
+        var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/auth";
+        response = await HttpClient.PostAsync(url, auth);
+
+        if (responseOutput.statusCode == 404 || responseOutput.statusCode == 401)
+        {
+            //Invalid User
+            responseOutput.msg = "El usuario o contraseña incorrectos";
+        }
+        else
+        {
+            await loginService.Login(await response.Content.ReadAsStringAsync());
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        responseOutput.statusCode = 200;
+        //isLogged = !String.IsNullOrEmpty(UserState.Token);
+    }
+}

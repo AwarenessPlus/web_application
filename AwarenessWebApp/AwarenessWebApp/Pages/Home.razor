@@ -1,0 +1,39 @@
+﻿@page "/home"
+@inject NavigationManager NavigationManager
+@inject UserState UserState
+<style>
+    .custom-border-button {
+        display: table-cell;
+        background: #1921ad;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+</style>
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 justify-content-center">
+                    <NavLink class="nav-link" href="enterProcedureData" Match="NavLinkMatch.All">
+                        <div class="custom-border-button">
+                            <span class="oi oi-play-circle" aria-hidden="true" data-toggle="tooltip" title="Iniciar Procedimiento"></span>
+                        </div>
+                    </NavLink>
+                </div>
+
+                <div class="col-xl-6 justify-content-center">
+                    <NavLink class="nav-link" href="viewProcedures" Match="NavLinkMatch.All">
+                        <div class="custom-border-button">
+                            <span class="oi oi-eye" aria-hidden="true" data-toggle="tooltip" title="Ver Procedimientos"></span>
+                        </div>
+                    </NavLink>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+}

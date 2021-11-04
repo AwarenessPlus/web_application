@@ -1,0 +1,68 @@
+﻿@layout MainLayout
+@page "/beginProcedure"
+
+<style>
+
+    .custom-border-button {
+        display: table-cell;
+        background: #1921ad;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-5 my-auto">
+            <div class="procedureSteps">
+                <ProcedureSteps />
+            </div>
+        </div>
+        <div class="col-xl-7 my-auto">
+            @if (disabled == true)
+            {
+                <div class="custom-border-button" @onclick="beginProcedureBtn"><h1>Iniciar Procedimiento</h1></div>
+            }
+            else
+            {
+                <h2 style="text-align: center;">¿Está seguro?</h2>
+                <div class="d-flex justify-content-around bd-highlight">
+                    <a class="btn btn-success p-2 bd-highlight" href="inProgressProcedure" @onclick="confirmBeginProcedure">Continuar</a>
+                    <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelBeginProcedure">Cancelar</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool disabled = true;
+    private void beginProcedureBtn()
+    {
+        disabled = false;
+    }
+    private void confirmBeginProcedure()
+    {
+
+    }
+    private void cancelBeginProcedure()
+    {
+        disabled = true;
+    }
+
+}

@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <div class="p-0 bd-highlight">
+                <div class="vr"></div>
+                <a class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="">
+                    <span class="oi oi-account-logout" aria-hidden="true" data-toggle="tooltip" title="Cerrar Sesión"></span>
+                </a>
+            </div>
+            <div class="p-0 bd-highlight">
+                <div class="vr"></div>
+                <a class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="settings">
+                    <span class="oi oi-cog" aria-hidden="true" data-toggle="tooltip" href="aboutApplication" title="Configuración"></span>
+                </a>
+            </div>
+            <div class="p-0 bd-highlight">
+                <div class="vr"></div>
+                <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="viewProfile">
+                    <span class="oi oi-person" aria-hidden="true" data-toggle="tooltip" href="" title="Ver perfil"></span>
+                </a>
+            </div>
+        </div>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>

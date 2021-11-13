@@ -1,15 +1,43 @@
 ﻿@page "/home"
 @inject NavigationManager NavigationManager
 @inject UserState UserState
+
 <style>
-    .custom-border-button {
+    .shape-button {
         display: table-cell;
-        background: #1921ad;
+        background: #6368B0;
         width: 28rem;
         height: 28rem;
         border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
         margin: 0 auto;
         vertical-align: middle;
+    }
+    .shape-button-invert {
+        display: table-cell;
+        background: #ffffff;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+        transform: rotateY(180deg);
+    }
+
+    .shape-button-invert:hover {
+        background: #C2E0B1;
+    }
+
+    .xl-icon {
+        transform: rotateY(180deg);
+        vertical-align: middle;
+        font-size: 10rem;
+        color: #6368B0;
+    }
+
+    h1 {
+        transform: rotateY(180deg);
+        font-size: 2rem;
+        color: #6368B0;
     }
 </style>
 <AuthorizeView>
@@ -17,17 +45,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 justify-content-center">
-                    <NavLink class="nav-link" href="enterProcedureData" Match="NavLinkMatch.All">
-                        <div class="custom-border-button">
-                            <span class="oi oi-play-circle" aria-hidden="true" data-toggle="tooltip" title="Iniciar Procedimiento"></span>
+                    <NavLink class="nav-link" href="enterPatientData" Match="NavLinkMatch.All" @onclick="resetProcedure">
+                        <div class="shape-button">
+                            <div class="shape-button-invert">
+                                <center>
+                                    <span class="oi oi-play-circle xl-icon" aria-hidden="true" data-toggle="tooltip" title="Iniciar Procedimiento"></span>
+                                    <h1>Iniciar Procedimiento</h1>
+                                </center>
+                            </div>
                         </div>
                     </NavLink>
                 </div>
 
                 <div class="col-xl-6 justify-content-center">
                     <NavLink class="nav-link" href="viewProcedures" Match="NavLinkMatch.All">
-                        <div class="custom-border-button">
-                            <span class="oi oi-eye" aria-hidden="true" data-toggle="tooltip" title="Ver Procedimientos"></span>
+                        <div class="shape-button">
+                            <div class="shape-button-invert">
+                                <center>
+                                    <span class="oi oi-eye xl-icon" aria-hidden="true" data-toggle="tooltip" title="Ver Procedimientos"></span>
+                                    <h1>Ver Procedimientos</h1>
+                                </center>
+                            </div>
                         </div>
                     </NavLink>
                 </div>
@@ -36,4 +74,8 @@
     </Authorized>
 </AuthorizeView>
 @code {
+    private void resetProcedure()
+    {
+        UserState.resetData();
+    }
 }

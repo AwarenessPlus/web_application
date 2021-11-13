@@ -1,0 +1,150 @@
+﻿@layout LoginLayout
+@inject HttpClient HttpClient
+@inject ILoginService loginService
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+
+@page "/signup"
+
+<style>
+    html, body {
+        background-image: url("../img/login_background.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: 'Quicksand', sans-serif;
+    }
+    .error-text{
+        text-align:left;
+        color: red;
+    }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
+<center>
+    <div class="card-holder">
+        <div class="card col-lg-4 rounded-lg">
+            <div>
+                <div class="d-flex justify-content-between bd-highlight mb-3">
+                    <div class="p-2 bd-highlight"></div>
+                    <div class="row col-8 p-2 bd-highlight">
+                        <img src="./img/logo.png" class="img-fluid" />
+                    </div>
+                    <button type="button" class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="about">
+                        <span class="oi oi-info" aria-hidden="true" data-toggle="tooltip" title="Acerca del software"></span>
+                    </button>
+                </div>
+                <hr />
+
+                <h3>Registrarse</h3>
+                <div style="padding: 10px;">
+                    <EditForm Model="medicSignUpDTO">
+                        <DataAnnotationsValidator />
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputFirstName">Nombres</label>
+                                <InputText @bind-Value="medicSignUpDTO.FirstName" class="form-control" id="inputFirstName" placeholder="Nombres" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputLastName">Apellidos</label>
+                                <InputText @bind-Value="medicSignUpDTO.LastName" class="form-control" id="inputLastName" placeholder="Apellidos" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputUser">Usuario</label>
+                            <InputText @bind-Value="medicSignUpDTO.Authentication.UserName" class="form-control" id="inputUserName" placeholder="Nombre de usuario" />
+                        </div>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputPassword">Contraseña</label>
+                            <InputText @bind-Value="medicSignUpDTO.Authentication.Password" class="form-control" type="password" id="inputPassword" placeholder="Contraseña" />
+                        </div>
+                        <div class="form-group">
+                            <label class="d-flex justify-content-start" for="inputPasswordConfirm">Confirmar Contraseña</label>
+                            <InputText @bind-Value="pass_match" class="form-control" type="password" id="inputPasswordConfirm" placeholder="Confirmar contraseña" />
+                            @if (!string.IsNullOrEmpty(medicSignUpDTO.Authentication.Password)&& medicSignUpDTO.Authentication.Password!=pass_match)
+                            {
+                                <label class="error-text">Las contraseñas no coinciden</label>
+                            }
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputUser">Fecha de Nacimiento</label>
+                                <InputDate @bind-Value="medicSignUpDTO.BirthDate" class="form-control" id="inputBirthDate" placeholder="Fecha Nacimiento" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start" for="inputSemester">Semestre</label>
+                                <InputNumber @bind-Value="medicSignUpDTO.Semester" class="form-control" id="inputSemester" placeholder="Semestre" />
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 dropdown show">
+                                <label class="d-flex justify-content-start" for="inputRotation">Rotación</label>
+                                <InputText @bind-Value="medicSignUpDTO.Rotation" class="form-control" id="inputRotation" placeholder="Rotación" />
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-check mr-auto p-4">
+                                <input type="radio" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
+                            </div>
+                            <div class="form-check p-4">
+                                <a href="" class="link-primary">O inicia sesión</a>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary rounded-pill btn-block" role="button" @onclick="singUpAuthentication">Registrarme</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+@code {
+    struct ResponseOutput
+    {
+        public string msg;
+        public int statusCode;
+    }
+
+    MedicSignUpDTO medicSignUpDTO = new();
+    ResponseOutput responseOutput;
+    HttpResponseMessage response;
+    string pass_match;
+
+    private async Task singUpAuthentication()
+    {
+        if (medicSignUpDTO.Authentication.Password == pass_match)
+        {
+            medicSignUpDTO.FirstName = medicSignUpDTO.FirstName + " ";
+            medicSignUpDTO.LastName = medicSignUpDTO.LastName + " ";
+            var auth = JsonContent.Create(medicSignUpDTO);
+            var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/signup";
+            response = await HttpClient.PostAsync(url, auth);
+            responseOutput.statusCode = (int)response.StatusCode;
+
+            if (responseOutput.statusCode != 200)
+            {
+                //Invalid User
+                responseOutput.msg = "Usuario o contraseña incorrectos";
+            }
+            else
+            {
+
+                UserState.UserName = medicSignUpDTO.Authentication.UserName;
+                var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+                await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID);
+                NavigationManager.NavigateTo("home");
+            }
+        }
+    }
+    protected override Task OnInitializedAsync()
+    {
+        medicSignUpDTO.BirthDate = DateTime.Today;
+        return base.OnInitializedAsync();
+    }
+}

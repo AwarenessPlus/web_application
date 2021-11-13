@@ -1,15 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@inject UserState UserState
 
+<style>
 
+</style>
 
-    <div class="btn-group-vertical" style="width: 100%;">
-        <a class="btn btn-outline-primary btn-block" href="enterProcedureData">Ingresar Datos Procedimiento </a>
-        <a class="btn btn-outline-primary btn-block" href="monitorConnection">Conexión con Monitor</a>
-        <a class="btn btn-outline-primary btn-block" href="hololensConnection">Conexión con Gafas</a>
-        <a class="btn btn-outline-primary btn-block" href="beginProcedure">Iniciar Procedimiento</a>
-        <a class="btn btn-outline-primary btn-block">Procedimiento en curso</a>
-        <a class="btn btn-outline-primary btn-block">Guardar Procedimiento en curso</a>
-    </div>
+<div class="btn-group-vertical" style="width: 100%;">
+    @foreach(var btn_item in UserState.ProcedureSteps){
+        <a class="btn btn-outline-primary btn-block @btn_item.status @btn_item.active" href="@btn_item.reference">@btn_item.msg</a>
+   }
+</div>
 
 
 

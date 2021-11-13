@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\U\\2021\\2021-02\\Tesis\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
+      "projectUniqueName": "D:\\U\\2021\\2021-02\\Tesis\\Ultima semana\\WebApp v2.0\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
       "projectName": "DomainModel",
-      "projectPath": "D:\\U\\2021\\2021-02\\Tesis\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
+      "projectPath": "D:\\U\\2021\\2021-02\\Tesis\\Ultima semana\\WebApp v2.0\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
       "packagesPath": "C:\\Users\\ajsho\\.nuget\\packages\\",
-      "outputPath": "D:\\U\\2021\\2021-02\\Tesis\\web_application\\domain_model_app\\DomainModel\\obj\\",
+      "outputPath": "D:\\U\\2021\\2021-02\\Tesis\\Ultima semana\\WebApp v2.0\\web_application\\domain_model_app\\DomainModel\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,0 +1,66 @@
+﻿@layout MainLayout
+@page "/inProgressProcedure"
+@inject UserState UserState
+
+<AuthorizeView>
+    <Authorized>
+        <style>
+            .center {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
+        </style>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 my-auto">
+                    <div class="procedureSteps">
+                        <ProcedureSteps />
+                    </div>
+                </div>
+                <div class="col-xl-7 my-auto">
+                    @if (!finalized)
+                    {
+                        <h1 style="text-align: center;"> Procedimiento en curso</h1>
+                        <img src="./img/loadingButton-unscreen.gif" class="img-fluid center" />
+                    }
+                    else
+                    {
+                        <!--
+        <h2 style="text-align: center;"> ¿Desea terminar el procedimiento?</h2>
+        <h2 style="text-align: center;"> Si lo hace se guardarán los cambios</h2>
+        <div class="d-flex justify-content-around bd-highlight">
+            <a class="btn btn-success p-2 bd-highlight" href="home" @onclick="confirmEndProcedure"> Si</a>
+            <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelEndProcedure"> No</div>
+        </div>-->
+                    }
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    private bool finalized = false;
+
+    private void endProcedure()
+    {
+        finalized = true;
+    }
+
+    private void confirmEndProcedure()
+    {
+
+    }
+    private void cancelEndProcedure()
+    {
+        finalized = false;
+    }
+    protected override Task OnInitializedAsync()
+    {
+        //Set active procedure step
+        UserState.nextStepActive(5);
+
+        return base.OnInitializedAsync();
+    }
+}

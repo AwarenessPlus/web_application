@@ -1,0 +1,95 @@
+﻿@layout MainLayout
+@page "/enterProcedureData"
+@inject UserState UserState
+@inject HttpClient HttpClient
+@inject ILoginService loginService
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 my-auto">
+                    <div class="procedureSteps">
+                        <ProcedureSteps />
+                    </div>
+                </div>
+                <div class="col-lg-7 my-auto">
+                    <EditForm Model="UserState.CurrentProcedureDTO" Context="procedure_dto">
+                        <DataAnnotationsValidator />
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Nombre del procedimiento</label>
+                                <InputText @bind-Value="UserState.CurrentProcedureDTO.ProcedureName" class="form-control" id="inputProcedureName" placeholder="Nombre del Procedimiento" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Clasificación ASA</label>
+                                <InputSelect id="asaList" @bind-Value="UserState.CurrentProcedureDTO.Asa" class="form-control">
+                                    @foreach (var asa in ASAClasification)
+                                    {
+                                        <option value="@asa.Item1"> @asa.Item2</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 form-group">
+                                <label class="d-flex justify-content-start">Estado del paciente</label>
+                                <InputTextArea @bind-Value="UserState.CurrentProcedureDTO.PatientStatus" class="form-control" id="inputPatientStatus" placeholder="Ingrese el estado del paciente" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button class="btn btn-success btn-lg btn-block" @onclick="persistNewProcedure">Continuar</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public List<(string, string)> ASAClasification = new List<(string, string)>();
+    HttpResponseMessage response;
+    protected override Task OnInitializedAsync()
+    {
+        //ASA DropDown
+        (string, string) select_default_asa = ("0", "--- Seleccione la clasificación ASA---");
+        (string, string) select_asa_i = ("1", "ASA I");
+        (string, string) select_asa_ii = ("2", "ASA II");
+        (string, string) select_asa_iii = ("3", "ASA III");
+        (string, string) select_asa_iv = ("4", "ASA IV");
+
+        ASAClasification.Add(select_default_asa);
+        ASAClasification.Add(select_asa_i);
+        ASAClasification.Add(select_asa_ii);
+        ASAClasification.Add(select_asa_iii);
+        ASAClasification.Add(select_asa_iv);
+        //Set active procedure step
+        UserState.nextStepActive(1);
+
+        return base.OnInitializedAsync();
+    }
+
+    private async Task persistNewProcedure()
+    {
+        //Fix error (Add spaces at the end of the names in case the patient doesn't have two first names and two last names)
+        UserState.CurrentProcedureDTO.PatientInfo.FirstName = UserState.CurrentProcedureDTO.PatientInfo.FirstName + " ";
+        UserState.CurrentProcedureDTO.PatientInfo.LastName= UserState.CurrentProcedureDTO.PatientInfo.LastName + " ";
+
+        UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+        if(UserState.CurrentProcedureDTO.MedicID == -1)
+        {
+            NavigationManager.NavigateTo("");
+        }
+        var procedure = JsonConvert.SerializeObject(UserState.CurrentProcedureDTO);
+        var stringContent = new StringContent(procedure, UnicodeEncoding.UTF8, "application/json");
+        var url = "https://databaseservicesawareness.azurewebsites.net/api/procedures/new-procedure";
+        response = await HttpClient.PostAsync(url, stringContent);
+        if (response.IsSuccessStatusCode)
+        {
+            UserState.afterProcedureInformation();
+            NavigationManager.NavigateTo("monitorConnection");
+        }
+    }
+}

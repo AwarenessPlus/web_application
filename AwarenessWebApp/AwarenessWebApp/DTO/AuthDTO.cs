@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Net.Http.Json;
-using System.Net.Http;
+﻿using System.ComponentModel.DataAnnotations;
 
 public class AuthDTO
 {
@@ -17,10 +10,10 @@ public class AuthDTO
     public string Password { get => password; set => password = value; }
 
     public AuthDTO()
-        {
-            this.UserName = "";
-            this.Password = "";
-        }
+    {
+        this.UserName = "";
+        this.Password = "";
+    }
     public AuthDTO(string userName, string password)
     {
         this.UserName = userName;

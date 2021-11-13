@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using AwarenessWebApp.Helpers;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.JSInterop;
-using System.Security.Claims;
 using System.Net.Http;
-using AwarenessWebApp.Helpers;
-using System.Text.Json;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace AwarenessWebApp.Auth
 {
@@ -17,13 +17,19 @@ namespace AwarenessWebApp.Auth
     {
         private readonly IJSRuntime _js;
         private readonly HttpClient httpClient;
-        public static readonly string Tokenkey = "TOKENKEY";
+        public static readonly string Tokenkey = "a27b0cd6fd2bff05e1620531af3ef000";
+        public static readonly string User_ID = "USER_ID";
         private AuthenticationState _defaultUser => new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
 
         public JWTAuthenticationProvider(IJSRuntime js, HttpClient httpClient)
         {
             this._js = js;
             this.httpClient = httpClient;
+        }
+        public async Task<string> GetToken()
+        {
+            var token = await _js.GetFromLocalStorage(Tokenkey);
+            return token;
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
@@ -35,8 +41,9 @@ namespace AwarenessWebApp.Auth
 
             return ConstructAuthenticationState(token);
         }
-        public async Task Login(string token)
+        public async Task Login(string token, int medic_id)
         {
+            await _js.SetInLocalStorage(User_ID, medic_id.ToString());
             await _js.SetInLocalStorage(Tokenkey, token);
             var authState = ConstructAuthenticationState(token);
             NotifyAuthenticationStateChanged(Task.FromResult(authState));
@@ -45,12 +52,24 @@ namespace AwarenessWebApp.Auth
         {
             httpClient.DefaultRequestHeaders.Authorization = null;
             await _js.RemoveItem(Tokenkey);
+            await _js.RemoveItem(User_ID);
             NotifyAuthenticationStateChanged(Task.FromResult(_defaultUser));
+        }
+
+        public async Task<int> GetUserId()
+        {
+            var id = await _js.GetFromLocalStorage(User_ID);
+            if (string.IsNullOrEmpty(id))
+            {
+                return -1;
+            }
+            return int.Parse(id);
         }
 
         private AuthenticationState ConstructAuthenticationState(string token)
         {
-            this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            token = token.Trim('\"');
+            this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt")));
         }
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)

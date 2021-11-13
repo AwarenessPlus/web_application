@@ -1,0 +1,74 @@
+﻿@layout MainLayout
+@page "/updateProfileInformation"
+@inject UserState UserState
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <EditForm Model="UserState.LoggedMedic" Context="patient_dto">
+                <DataAnnotationsValidator />
+                <div class="form-row">
+                    <div class="col-lg-6 form-group">
+                        <label class="d-flex justify-content-start" for="inputUser">Nombres</label>
+                        <InputText @bind-Value="UserState.LoggedMedic.FirstName" class="form-control" id="inputFirstName" placeholder="Nombres" />
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label class="d-flex justify-content-start" for="inputPassword">Apellidos</label>
+                        <InputText @bind-Value="UserState.LoggedMedic.LastName" class="form-control" id="inputLastName" placeholder="Apellidos" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-6 form-group">
+                        <label class="d-flex justify-content-start" for="inputUser">Fecha de Nacimiento</label>
+                        <InputDate @bind-Value="UserState.LoggedMedic.BirthDate" class="form-control" id="inputBirthDate" placeholder="Fecha Nacimiento" />
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label class="d-flex justify-content-start" for="inputSemester">Semester</label>
+                        <InputNumber @bind-Value="UserState.LoggedMedic.Semester" class="form-control" id="inputSemester" placeholder="Semestre" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-6 form-group">
+                        <label class="d-flex justify-content-start" for="inputUser">Username</label>
+                        <input type="text" class="form-control" id="inputUser" aria-describedby="emailHelp" placeholder=@UserState.LoggedMedic.Username readonly>
+                    </div>
+                    <div class="col-md-6 dropdown show">
+                        <label class="d-flex justify-content-start" for="inputUser">Rotación</label>
+                        <InputText @bind-Value="UserState.LoggedMedic.Rotation" class="form-control" id="inputRotation" placeholder="Rotación" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-6 form-group">
+                        <a class="btn btn-danger btn-lg btn-block" href="viewProfile">Cancelar</a>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <button class="btn btn-success btn-lg btn-block" role="button" @onclick="saveChangesProfile">Guardar Cambios</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+        <p>@medic</p>
+    </Authorized>
+</AuthorizeView>
+@code {
+    HttpResponseMessage response;
+    string medic;
+    private async Task saveChangesProfile()
+    {
+        medic = JsonConvert.SerializeObject(UserState.LoggedMedic);
+        var stringContent = new StringContent(medic, UnicodeEncoding.UTF8, "application/json");
+
+        var url = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.LoggedMedic.Username;
+        response = await HttpClient.PutAsync(url, stringContent);
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/viewProfile/success");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/viewProfile/error");
+        }
+    }
+}

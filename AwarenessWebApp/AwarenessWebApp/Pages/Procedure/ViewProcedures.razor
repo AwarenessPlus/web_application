@@ -1,0 +1,97 @@
+﻿@page "/viewProcedures"
+@inject HttpClient HttpClient
+@inject UserState UserState
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<style>
+    .center-text {
+        text-align: center;
+        padding-left: 20rem;
+        padding-right: 20rem;
+    }
+</style>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <h1>Ver Procedimientos</h1>
+
+                @if (procedures == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre del Residente</th>
+                                <th>Nombre del Procedimiento</th>
+                                <th>Fecha</th>
+                                <th>Nombre del Paciente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var procedure in procedures)
+                            {
+                                <tr>
+                                    <td>@UserState.LoggedMedic.getFullName()</td>
+                                    <td>@procedure.ProcedureName</td>
+                                    <td>@procedure.ProcedureDate.ToShortDateString()</td>
+                                    <td>@procedure.PatientInfo.getFullName()</td>
+                                    <td>
+                                        <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="() => playProcedureVideo(procedure.ProcedureID)">
+                                            <span class="oi oi-play-circle" aria-hidden="true" data-toggle="tooltip" title="Reproducir Video"></span>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="() => deleteProcedure(procedure.ProcedureID)" href="home">
+                                            <span class="oi oi-trash" aria-hidden="true" data-toggle="tooltip" title="Eliminar Video"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (!String.IsNullOrEmpty(anyProcedures))
+                    {
+                        <div class="row">
+                            <h2 class="center-text">@anyProcedures</h2>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    private ProcedureDTO[] procedures;
+    private string anyProcedures;
+    protected override async Task OnInitializedAsync()
+    {
+        var url_procedure = "https://databaseservicesawareness.azurewebsites.net/api/procedures/" + UserState.LoggedMedic.MedicID;
+        HttpResponseMessage response_get = await HttpClient.GetAsync(url_procedure);
+
+        if (response_get.IsSuccessStatusCode)
+        {
+            string response_content = await response_get.Content.ReadAsStringAsync();
+            procedures = JsonConvert.DeserializeObject<ProcedureDTO[]>(response_content);
+        }
+        else
+        {
+            procedures = new ProcedureDTO[0];
+            anyProcedures = "No tienes procedimientos asociados";
+        }
+    }
+    private async Task deleteProcedure(int selectedProcedureID)
+    {
+        if (!await AwarenessWebApp.Helpers.JSRuntimeExtensions.Confirm(JSRuntime, "¿Desea eliminar el procedimiento ?"))
+            return;
+        var url_delete = "https://databaseservicesawareness.azurewebsites.net/api/procedures/" + selectedProcedureID;
+        HttpResponseMessage response_delete = await HttpClient.DeleteAsync(url_delete);
+    }
+    private void playProcedureVideo(int selectedProcedureID)
+    {
+        NavigationManager.NavigateTo("/viewProcedureVideo/" + selectedProcedureID);
+    }
+}

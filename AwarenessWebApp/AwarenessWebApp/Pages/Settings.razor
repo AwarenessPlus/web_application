@@ -1,6 +1,10 @@
 ﻿@layout MainLayout
 @page "/settings"
-<p>Opciones</p>
+<AuthorizeView>
+    <Authorized>
+        <p>Opciones</p>
+    </Authorized>
+</AuthorizeView>
 @code {
 
 }

@@ -6,6 +6,16 @@
 
 @page "/"
 
+<style>
+    html, body {
+        background-image: url("../img/login_background.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: 'Quicksand', sans-serif;
+    }
+</style>
 <div class="body-login">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
     <center>
@@ -22,10 +32,9 @@
                         </a>
                     </div>
                     <hr />
-
                     <h3>Iniciar Sesión</h3>
                     <div style="padding: 10px;">
-                        @if (responseOutput.statusCode != 200)
+                        @if (!string.IsNullOrEmpty(responseOutput.msg))
                         {
                             <div class="alert alert-danger" role="alert">
                                 @responseOutput.msg
@@ -47,10 +56,10 @@
                                     <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
                                 </div>
                                 <div class="form-check p-4">
-                                    <a href="/singup" class="link-primary">No tengo cuenta</a>
+                                    <a href="/signup" class="link-primary">No tengo cuenta</a>
                                 </div>
                             </div>
-                            <a class="btn btn-outline-primary rounded-pill btn-block" type="submit" role="button" href="home" @onclick="loginAuthentication">Iniciar Sesión</a>
+                            <button class="btn btn-outline-primary rounded-pill btn-block" type="submit" role="button" @onclick="loginAuthentication">Iniciar Sesión</button>
                         </EditForm>
 
                     </div>
@@ -73,24 +82,26 @@
 
     private async Task loginAuthentication()
     {
+        responseOutput.msg=null;
         var auth = JsonContent.Create(authDTO);
         var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/auth";
         response = await HttpClient.PostAsync(url, auth);
+        responseOutput.statusCode = (int)response.StatusCode;
 
-        if (responseOutput.statusCode == 404 || responseOutput.statusCode == 401)
+        if (responseOutput.statusCode != 200 )
         {
             //Invalid User
-            responseOutput.msg = "El usuario o contraseña incorrectos";
+            responseOutput.msg = "Usuario o contraseña incorrectos";
         }
         else
         {
-            await loginService.Login(await response.Content.ReadAsStringAsync());
+            UserState.UserName = authDTO.UserName;
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/"+UserState.UserName;
+            HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+            string response_body = await response_get.Content.ReadAsStringAsync();
+            UserState.stringResponseJsonConvertMedic(response_body);
+            await loginService.Login(await response.Content.ReadAsStringAsync(),UserState.LoggedMedic.MedicID);
+            NavigationManager.NavigateTo("home");
         }
-    }
-
-    protected override void OnInitialized()
-    {
-        responseOutput.statusCode = 200;
-        //isLogged = !String.IsNullOrEmpty(UserState.Token);
     }
 }

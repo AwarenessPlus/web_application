@@ -1,0 +1,139 @@
+﻿@layout MainLayout
+@page "/enterPatientData"
+@inject UserState UserState
+@inject HttpClient HttpClient
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 my-auto">
+                    <div class="procedureSteps">
+                        <ProcedureSteps />
+                    </div>
+                </div>
+                <div class="col-lg-7 my-auto">
+                    <EditForm Model="UserState.CurrentProcedureDTO.PatientInfo" Context="patient_dto">
+                        <DataAnnotationsValidator />
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Documento</label>
+                                <InputNumber @bind-Value="UserState.CurrentProcedureDTO.PatientInfo.DocumentID" @onblur="getPatientData" class="form-control" id="inputDocumentID" placeholder="Número de Documento" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Nombres</label>
+                                <InputText @bind-Value="UserState.CurrentProcedureDTO.PatientInfo.FirstName" class="form-control" id="inputFirstName" placeholder="Nombres" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Apellidos</label>
+                                <InputText @bind-Value="UserState.CurrentProcedureDTO.PatientInfo.LastName" class="form-control" id="inputLastName" placeholder="Apellidos" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Fecha de Nacimiento</label>
+                                <InputDate @bind-Value="UserState.CurrentProcedureDTO.PatientInfo.BirthDate" class="form-control" id="inputBirthDate" placeholder="Fecha de Nacimiento" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Sexo</label>
+                                <InputSelect id="sexList" @bind-Value="@UserState.CurrentProcedureDTO.PatientInfo.Sex" class="form-control">
+                                    @foreach (var sex in Sexes)
+                                    {
+                                        <option value="@sex.Item1"> @sex.Item2</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">Grupo Sanguineo</label>
+                                <InputSelect id="bloodList" @bind-Value="@UserState.CurrentProcedureDTO.PatientInfo.BloodGroup" class="form-control">
+                                    @foreach (var blood in BloodGroup)
+                                    {
+                                        <option value="@blood.Item1"> @blood.Item2</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-flex justify-content-start">RH</label>
+                                <InputSelect id="rhList" @bind-Value="@UserState.CurrentProcedureDTO.PatientInfo.Rh" class="form-control">
+                                    @foreach (var rh in Rh_s)
+                                    {
+                                        <option value="@rh.Item1"> @rh.Item2</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row-reverse bd-highlight">
+                            <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="enterProcedureData">
+                                <span class="oi oi-chevron-right" style="font-size: 1.2rem" aria-hidden="true" data-toggle="tooltip"></span>
+                            </a>
+                            <div class="p-2 bd-highlight">Siguiente Paso</div>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public List<(string, string)> Sexes = new List<(string, string)>();
+    public List<(string, string)> Rh_s = new List<(string, string)>();
+    public List<(string, string)> BloodGroup = new List<(string, string)>();
+    protected override Task OnInitializedAsync()
+    {
+        //Sex dropdown
+        (string, string) select_default_sex = ("", "--- Seleccione el sexo ---");
+        (string, string) male = ("M", "Masculino");
+        (string, string) female = ("F", "Femenino");
+        (string, string) other = ("O", "Otro");
+        Sexes.Add(select_default_sex);
+        Sexes.Add(male);
+        Sexes.Add(female);
+        Sexes.Add(other);
+
+        //RH dropdown
+        (string, string) select_default_rh = ("", "--- Seleccione el RH ---");
+        (string, string) positive = ("P", "Positivo");
+        (string, string) negative = ("N", "Negativo");
+        (string, string) neutral = ("NULO", "Nulo");
+        Rh_s.Add(select_default_rh);
+        Rh_s.Add(positive);
+        Rh_s.Add(negative);
+        Rh_s.Add(neutral);
+
+        //Blood dropdown
+        (string, string) select_default_blood_group = ("", "--- Seleccione el Grupo Sanguineo ---");
+        (string, string) a_blood_group = ("A", "A");
+        (string, string) b_blood_group = ("B", "B");
+        (string, string) ab_blood_group = ("AB", "AB");
+        (string, string) o_blood_group = ("O", "O");
+        BloodGroup.Add(select_default_blood_group);
+        BloodGroup.Add(a_blood_group);
+        BloodGroup.Add(b_blood_group);
+        BloodGroup.Add(ab_blood_group);
+        BloodGroup.Add(o_blood_group);
+
+        UserState.CurrentProcedureDTO.PatientInfo.BirthDate = DateTime.Today;
+
+        //Set active procedure step
+        UserState.nextStepActive(0);
+
+        return base.OnInitializedAsync();
+    }
+    private async Task getPatientData()
+    {
+        var patient_url = "https://databaseservicesawareness.azurewebsites.net/api/patients/" + UserState.CurrentProcedureDTO.PatientInfo.DocumentID;
+        HttpResponseMessage response_get = await HttpClient.GetAsync(patient_url);
+
+        if (response_get.IsSuccessStatusCode)
+        {
+            string response_body = await response_get.Content.ReadAsStringAsync();
+            UserState.CurrentProcedureDTO.PatientInfo = JsonConvert.DeserializeObject<PatientDTO>(response_body);
+        }
+    }
+
+}

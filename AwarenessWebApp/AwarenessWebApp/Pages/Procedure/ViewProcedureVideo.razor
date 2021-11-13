@@ -1,0 +1,26 @@
+﻿@layout MainLayout
+@page "/viewProcedureVideo/{procedure_id?}"
+@inject HttpClient HttpClient
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <h1>Ver Procedimiento</h1>
+            </div>
+            <div class="row">
+                <video width="800" height="600" controls="controls">
+                    <source src=@Video_src />
+                </video>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    [Parameter]
+    public string? Procedure_ID { get; set; }
+    protected string Video_src;
+    protected override async Task OnInitializedAsync()
+    {
+       Video_src= "https://databaseservicesawareness.azurewebsites.net/api/procedures/get-video/" + Procedure_ID;
+    }
+}

@@ -10,11 +10,14 @@ namespace AwarenessWebApp
         public ProcedureDTO CurrentProcedureDTO = new();
         public MedicDTO LoggedMedic = new();
         public List<BtnGroupItem> ProcedureSteps = new();
-        public string ProcedureId;
-        public string updateProfileMsg;
+        public string UpdateProfileMsg;
+        public string CurrentStep;
+        public string Url_hololens_service;
+        public string Url_monitor_service;
         public UserState()
         {
             this.constructProcedureSteps("", "disabled");
+            this.setConfiguration();
         }
         public void resetData()
         {
@@ -22,6 +25,11 @@ namespace AwarenessWebApp
             this.constructProcedureSteps("", "disabled");
         }
 
+        public void setConfiguration()
+        {
+            Url_hololens_service = "https://hololenscommunicationserviceawareness.azurewebsites.net/api/hololens-communication-service";
+            Url_monitor_service = "https://awarenessmonitorscomunication.azurewebsites.net";
+        }
 
         public void stringResponseJsonConvertMedic(string jsonString)
         {
@@ -74,11 +82,6 @@ namespace AwarenessWebApp
             this.ProcedureSteps.Add(beginProcedure);
             this.ProcedureSteps.Add(procedureInProgress);
         }
-        public void afterProcedureInformation()
-        {
-            this.ProcedureSteps.Clear();
-            this.constructProcedureSteps("disabled", "");
-        }
         public void nextStepActive(int current_step)
         {
             foreach (var step in this.ProcedureSteps)
@@ -86,6 +89,16 @@ namespace AwarenessWebApp
                 step.active = "";
             }
             this.ProcedureSteps[current_step].active = "active";
+        }
+        public void onlyCurrentStep(int current_step)
+        {
+            foreach (var step in this.ProcedureSteps)
+            {
+                step.active = "";
+                step.status = "disabled";
+            }
+            this.ProcedureSteps[current_step].active = "active";
+            this.ProcedureSteps[current_step].status = "";
         }
     }
     public class BtnGroupItem

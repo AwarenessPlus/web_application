@@ -13,126 +13,126 @@ namespace AwarenessWebApp.Pages.Procedure
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 1 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 2 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 3 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 4 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 5 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 6 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 7 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 8 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 9 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 10 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 11 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 12 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 13 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Auth;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 14 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 14 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.DTO;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 15 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 15 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Text;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 16 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 16 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 17 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 17 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Helpers;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 18 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 18 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http.Headers;
 
 #line default
@@ -148,12 +148,16 @@ using System.Net.Http.Headers;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 51 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\Pages\Procedure\EnterProcedureData.razor"
+#line 51 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\Pages\Procedure\EnterProcedureData.razor"
        
     public List<(string, string)> ASAClasification = new List<(string, string)>();
-    HttpResponseMessage response;
-    protected override Task OnInitializedAsync()
+    private HttpResponseMessage response;
+    private string waitingMsg;
+    private string disable_btn;
+    protected async override Task OnInitializedAsync()
     {
+        waitingMsg = "Continuar";
+        disable_btn = "";
         //ASA DropDown
         (string, string) select_default_asa = ("0", "--- Seleccione la clasificación ASA---");
         (string, string) select_asa_i = ("1", "ASA I");
@@ -168,30 +172,63 @@ using System.Net.Http.Headers;
         ASAClasification.Add(select_asa_iv);
         //Set active procedure step
         UserState.nextStepActive(1);
-
-        return base.OnInitializedAsync();
+        await getUserInformation();
     }
 
     private async Task persistNewProcedure()
     {
+        waitingMsg = "Cargando...";
+        disable_btn = "disabled";
         //Fix error (Add spaces at the end of the names in case the patient doesn't have two first names and two last names)
         UserState.CurrentProcedureDTO.PatientInfo.FirstName = UserState.CurrentProcedureDTO.PatientInfo.FirstName + " ";
-        UserState.CurrentProcedureDTO.PatientInfo.LastName= UserState.CurrentProcedureDTO.PatientInfo.LastName + " ";
+        UserState.CurrentProcedureDTO.PatientInfo.LastName = UserState.CurrentProcedureDTO.PatientInfo.LastName + " ";
 
         UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
-        if(UserState.CurrentProcedureDTO.MedicID == -1)
+        if (UserState.CurrentProcedureDTO.MedicID == -1)
         {
             NavigationManager.NavigateTo("");
         }
         var procedure = JsonConvert.SerializeObject(UserState.CurrentProcedureDTO);
         var stringContent = new StringContent(procedure, UnicodeEncoding.UTF8, "application/json");
         var url = "https://databaseservicesawareness.azurewebsites.net/api/procedures/new-procedure";
-        response = await HttpClient.PostAsync(url, stringContent);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            UserState.afterProcedureInformation();
-            NavigationManager.NavigateTo("monitorConnection");
+            response = await HttpClient.PostAsync(url, stringContent);
+            if (response.IsSuccessStatusCode)
+            {
+                var response_id_procedure = await response.Content.ReadAsStringAsync();
+                UserState.CurrentProcedureDTO.ProcedureID = int.Parse(response_id_procedure);
+                //Set active procedure step
+                UserState.onlyCurrentStep(2);
+                NavigationManager.NavigateTo("monitorConnection");
+            }
         }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        StateHasChanged();
     }
 
 #line default

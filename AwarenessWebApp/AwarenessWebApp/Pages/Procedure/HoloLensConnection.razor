@@ -2,6 +2,7 @@
 @page "/hololensConnection"
 @inject UserState UserState
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 <style>
     .shape-button {
@@ -25,9 +26,9 @@
         transform: rotateY(180deg);
     }
 
-    .shape-button-invert:hover {
-        background: #C2E0B1;
-    }
+        .shape-button-invert:hover {
+            background: #C2E0B1;
+        }
 
     .xl-icon {
         transform: rotateY(180deg);
@@ -47,6 +48,10 @@
         width: 50%;
         padding: 10px;
     }
+    .error-text {
+        text-align: left;
+        color: red;
+    }
 </style>
 <AuthorizeView>
     <Authorized>
@@ -58,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-lg-7 my-auto">
-                    @if (holoLensServiceStatus)
+                    @if (holoLensServiceStatus == "enabled")
                     {
                         @if (holoLensStatus == "disconnected")
                         {
@@ -80,21 +85,22 @@
                         {
                             <img src="./img/check.png" class="img-fluid center" />
                             <br />
-                            <!-- <a class="btn btn-warning btn-lg btn-block" @onclick="disconnectHoloLens">Desconectar Gafas</a>-->
+                            <div class="col-md-6">
+                                <button class="btn btn-success btn-lg btn-block" @onclick="continueNextStep">Continuar</button>
+                            </div>
                         }
-                        else
-                        {
-                            <!--
-            <h2 style="text-align: center;"> ¿Seguro desea desconectar las gafas?</h2>
-            <div class="d-flex justify-content-around bd-highlight">
-                <a class="btn btn-success p-2 bd-highlight" @onclick="confirmDisconnectHoloLens"> Si</a>
-                <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelDisconnectHoloLens"> No</div>
-            </div>-->
-                        }
+
                     }
-                    else
+                    @if (string.IsNullOrEmpty(holoLensServiceStatus))
                     {
-                        <h2>Error en el acceso al servicio de conexión con HoloLens</h2>
+                        <h2>Cargando...</h2>
+                    }
+                    @if (holoLensServiceStatus == "disabled")
+                    {
+                        <h2 class="error-text">Error en el acceso al servicio de conexión con HoloLens</h2>
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-lg btn-block" @onclick="testHoloLensConnection">Volver a intentar</button>
+                        </div>
                     }
                 </div>
             </div>
@@ -104,52 +110,78 @@
 
 @code {
     private string holoLensStatus = "disconnected";
-    private bool holoLensServiceStatus;
+    private string holoLensServiceStatus;
     private string errorMessage;
 
     private async void testHoloLensConnection()
     {
         holoLensStatus = "connecting";
-        var url = "https://hololenscommunicationserviceawareness.azurewebsites.net/api/hololens-communication-service/connect-hololens";
-        HttpResponseMessage response_get = await HttpClient.GetAsync(url);
-        if (response_get.IsSuccessStatusCode)
+        var url = UserState.Url_hololens_service + "/hololens-connection-status";
+        try
         {
-            holoLensStatus = "connected";
+            HttpResponseMessage response_get = await HttpClient.GetAsync(url);
+            if (response_get.IsSuccessStatusCode)
+            {
+                var response_str = await response_get.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(response_str) && response_str.Equals("true"))
+                {
+                    response_str = "suputamadres";
+                    holoLensServiceStatus = "enabled";
+                    holoLensStatus = "connected";
+                    StateHasChanged();
+                }
+                else
+                {
+                    holoLensServiceStatus = "disabled";
+                    StateHasChanged();
+                }
+            }
+            else
+            {
+                errorMessage = response_get.ReasonPhrase;
+                Console.WriteLine($"There was an error! {errorMessage}");
+                return;
+            }
         }
-        else
+        catch (HttpRequestException e)
         {
-            errorMessage = response_get.ReasonPhrase;
-            Console.WriteLine($"There was an error! {errorMessage}");
-            return;
+            Console.WriteLine(e);
         }
     }
-    private void disconnectHoloLens()
-    {
-        holoLensStatus = "confirmDisconnect";
-    }
-    private void confirmDisconnectHoloLens()
-    {
-        holoLensStatus = "disconnected";
-    }
-    private void cancelDisconnectHoloLens()
-    {
-        holoLensStatus = "connected";
-    }
+
     protected override async Task OnInitializedAsync()
     {
+
+        if (UserState.ProcedureSteps[3].active != "active")
+        {
+            NavigationManager.NavigateTo("/enterPatientData");
+        }
+
+
+        var url = UserState.Url_hololens_service + "/health-status";
+        try
+        {
+            HttpResponseMessage response_get = await HttpClient.GetAsync(url);
+            if (response_get.IsSuccessStatusCode)
+            {
+                holoLensServiceStatus = "enabled";
+            }
+            else
+            {
+                holoLensServiceStatus = "disabled";
+                errorMessage = response_get.ReasonPhrase;
+                Console.WriteLine($"There was an error! {errorMessage}");
+            }
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    private void continueNextStep()
+    {
         //Set active procedure step
-        UserState.nextStepActive(3);
-        var url = "https://hololenscommunicationserviceawareness.azurewebsites.net/api/hololens-communication-service/health-status";
-        HttpResponseMessage response_get = await HttpClient.GetAsync(url);
-        if (response_get.IsSuccessStatusCode)
-        {
-            holoLensStatus = "connected";
-        }
-        else
-        {
-            holoLensServiceStatus = false;
-            errorMessage = response_get.ReasonPhrase;
-            Console.WriteLine($"There was an error! {errorMessage}");
-        }
+        UserState.onlyCurrentStep(4);
+        NavigationManager.NavigateTo("/beginProcedure");
     }
 }

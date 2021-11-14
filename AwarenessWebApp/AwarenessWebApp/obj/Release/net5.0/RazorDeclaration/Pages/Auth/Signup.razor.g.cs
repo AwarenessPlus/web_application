@@ -13,126 +13,126 @@ namespace AwarenessWebApp.Pages.Auth
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 1 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 2 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 3 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 4 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 5 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 6 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 7 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 8 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 9 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 10 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 11 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 12 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 13 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Auth;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 14 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 14 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.DTO;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 15 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 15 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Text;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 16 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 16 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 17 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 17 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using AwarenessWebApp.Helpers;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 18 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
+#line 18 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\_Imports.razor"
 using System.Net.Http.Headers;
 
 #line default
@@ -148,7 +148,7 @@ using System.Net.Http.Headers;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 104 "D:\U\2021\2021-02\Tesis\Ultima semana\WebApp v2.0\web_application\AwarenessWebApp\AwarenessWebApp\Pages\Auth\Signup.razor"
+#line 110 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\Pages\Auth\Signup.razor"
        
     struct ResponseOutput
     {
@@ -156,44 +156,56 @@ using System.Net.Http.Headers;
         public int statusCode;
     }
 
-    MedicSignUpDTO medicSignUpDTO = new();
-    ResponseOutput responseOutput;
-    HttpResponseMessage response;
-    string pass_match;
+    private MedicSignUpDTO medicSignUpDTO = new();
+    private ResponseOutput responseOutput;
+    private HttpResponseMessage response;
+    private string pass_match;
+    private string waitingMsg = "Registrarse";
+    private string disable_btn = "";
 
     private async Task singUpAuthentication()
     {
         if (medicSignUpDTO.Authentication.Password == pass_match)
         {
+            waitingMsg = "Cargando...";
+            disable_btn = "disabled";
             medicSignUpDTO.FirstName = medicSignUpDTO.FirstName + " ";
             medicSignUpDTO.LastName = medicSignUpDTO.LastName + " ";
             var auth = JsonContent.Create(medicSignUpDTO);
             var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/signup";
-            response = await HttpClient.PostAsync(url, auth);
-            responseOutput.statusCode = (int)response.StatusCode;
-
-            if (responseOutput.statusCode != 200)
+            try
             {
-                //Invalid User
-                responseOutput.msg = "Usuario o contraseña incorrectos";
+                response = await HttpClient.PostAsync(url, auth);
+                responseOutput.statusCode = (int)response.StatusCode;
+
+                if(responseOutput.statusCode == 409)
+                {
+                    responseOutput.msg = "El nombre de usuario ya está en uso";
+                    waitingMsg = "Registrarse";
+                    disable_btn = "";
+                }
+                else if (responseOutput.statusCode != 200)
+                {
+                    //Invalid User
+                    responseOutput.msg = "Datos incorrectos";
+                }
+                else
+                {
+
+                    UserState.UserName = medicSignUpDTO.Authentication.UserName;
+                    var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+                    HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                    string response_body = await response_get.Content.ReadAsStringAsync();
+                    UserState.stringResponseJsonConvertMedic(response_body);
+                    await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID, UserState.UserName);
+                    NavigationManager.NavigateTo("home");
+                }
             }
-            else
+            catch (HttpRequestException e)
             {
-
-                UserState.UserName = medicSignUpDTO.Authentication.UserName;
-                var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
-                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
-                string response_body = await response_get.Content.ReadAsStringAsync();
-                UserState.stringResponseJsonConvertMedic(response_body);
-                await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID);
-                NavigationManager.NavigateTo("home");
+                Console.WriteLine(e);
             }
         }
-    }
-    protected override Task OnInitializedAsync()
-    {
-        medicSignUpDTO.BirthDate = DateTime.Today;
-        return base.OnInitializedAsync();
     }
 
 #line default

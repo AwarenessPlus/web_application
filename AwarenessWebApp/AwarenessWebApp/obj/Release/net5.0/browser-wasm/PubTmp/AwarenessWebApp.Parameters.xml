@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="IIS Web Application Name" description="" value="awareness-plus" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\U\\2021\\2021-02\\Tesis\\Ultima\ semana\\WebApp\ v2\.0\\web_application\\AwarenessWebApp\\AwarenessWebApp\\obj\\Release\\net5\.0\\browser-wasm\\PubTmp\\Out\\$" />
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\web_application\\AwarenessWebApp\\AwarenessWebApp\\obj\\Release\\net5\.0\\browser-wasm\\PubTmp\\Out\\$" />
   </parameter>
 </parameters>

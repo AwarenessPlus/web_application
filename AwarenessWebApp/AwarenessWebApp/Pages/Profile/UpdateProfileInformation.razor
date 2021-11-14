@@ -3,6 +3,7 @@
 @inject UserState UserState
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject ILoginService loginService
 
 <AuthorizeView>
     <Authorized>
@@ -49,26 +50,57 @@
                 </div>
             </EditForm>
         </div>
-        <p>@medic</p>
     </Authorized>
 </AuthorizeView>
 @code {
     HttpResponseMessage response;
     string medic;
+    protected async override Task OnInitializedAsync()
+    {
+        await getUserInformation();
+    }
     private async Task saveChangesProfile()
     {
         medic = JsonConvert.SerializeObject(UserState.LoggedMedic);
         var stringContent = new StringContent(medic, UnicodeEncoding.UTF8, "application/json");
 
         var url = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.LoggedMedic.Username;
-        response = await HttpClient.PutAsync(url, stringContent);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            NavigationManager.NavigateTo("/viewProfile/success");
+            response = await HttpClient.PutAsync(url, stringContent);
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo("/viewProfile/success");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/viewProfile/error");
+            }
         }
-        else
+        catch (HttpRequestException e)
         {
-            NavigationManager.NavigateTo("/viewProfile/error");
+            Console.WriteLine(e);
         }
+    }
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        StateHasChanged();
     }
 }

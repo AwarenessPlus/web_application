@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label class="d-flex justify-content-start" for="inputPasswordConfirm">Confirmar Contraseña</label>
                             <InputText @bind-Value="pass_match" class="form-control" type="password" id="inputPasswordConfirm" placeholder="Confirmar contraseña" />
-                            @if (!string.IsNullOrEmpty(medicSignUpDTO.Authentication.Password)&& medicSignUpDTO.Authentication.Password!=pass_match)
+                            @if (!string.IsNullOrEmpty(medicSignUpDTO.Authentication.Password) && medicSignUpDTO.Authentication.Password != pass_match)
                             {
                                 <label class="error-text">Las contraseñas no coinciden</label>
                             }
@@ -94,7 +94,13 @@
                                 <a href="" class="link-primary">O inicia sesión</a>
                             </div>
                         </div>
-                        <button class="btn btn-outline-primary rounded-pill btn-block" role="button" @onclick="singUpAuthentication">Registrarme</button>
+                        @if (!string.IsNullOrEmpty(responseOutput.msg))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @responseOutput.msg
+                            </div>
+                        }
+                        <button class="btn btn-outline-primary rounded-pill btn-block @disable_btn" role="button" @onclick="singUpAuthentication">@waitingMsg</button>
                     </EditForm>
                 </div>
             </div>
@@ -108,43 +114,55 @@
         public int statusCode;
     }
 
-    MedicSignUpDTO medicSignUpDTO = new();
-    ResponseOutput responseOutput;
-    HttpResponseMessage response;
-    string pass_match;
+    private MedicSignUpDTO medicSignUpDTO = new();
+    private ResponseOutput responseOutput;
+    private HttpResponseMessage response;
+    private string pass_match;
+    private string waitingMsg = "Registrarse";
+    private string disable_btn = "";
 
     private async Task singUpAuthentication()
     {
         if (medicSignUpDTO.Authentication.Password == pass_match)
         {
+            waitingMsg = "Cargando...";
+            disable_btn = "disabled";
             medicSignUpDTO.FirstName = medicSignUpDTO.FirstName + " ";
             medicSignUpDTO.LastName = medicSignUpDTO.LastName + " ";
             var auth = JsonContent.Create(medicSignUpDTO);
             var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/signup";
-            response = await HttpClient.PostAsync(url, auth);
-            responseOutput.statusCode = (int)response.StatusCode;
-
-            if (responseOutput.statusCode != 200)
+            try
             {
-                //Invalid User
-                responseOutput.msg = "Usuario o contraseña incorrectos";
+                response = await HttpClient.PostAsync(url, auth);
+                responseOutput.statusCode = (int)response.StatusCode;
+
+                if(responseOutput.statusCode == 409)
+                {
+                    responseOutput.msg = "El nombre de usuario ya está en uso";
+                    waitingMsg = "Registrarse";
+                    disable_btn = "";
+                }
+                else if (responseOutput.statusCode != 200)
+                {
+                    //Invalid User
+                    responseOutput.msg = "Datos incorrectos";
+                }
+                else
+                {
+
+                    UserState.UserName = medicSignUpDTO.Authentication.UserName;
+                    var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+                    HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                    string response_body = await response_get.Content.ReadAsStringAsync();
+                    UserState.stringResponseJsonConvertMedic(response_body);
+                    await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID, UserState.UserName);
+                    NavigationManager.NavigateTo("home");
+                }
             }
-            else
+            catch (HttpRequestException e)
             {
-
-                UserState.UserName = medicSignUpDTO.Authentication.UserName;
-                var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
-                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
-                string response_body = await response_get.Content.ReadAsStringAsync();
-                UserState.stringResponseJsonConvertMedic(response_body);
-                await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID);
-                NavigationManager.NavigateTo("home");
+                Console.WriteLine(e);
             }
         }
-    }
-    protected override Task OnInitializedAsync()
-    {
-        medicSignUpDTO.BirthDate = DateTime.Today;
-        return base.OnInitializedAsync();
     }
 }

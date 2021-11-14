@@ -19,17 +19,13 @@ namespace AwarenessWebApp.Auth
         private readonly HttpClient httpClient;
         public static readonly string Tokenkey = "a27b0cd6fd2bff05e1620531af3ef000";
         public static readonly string User_ID = "USER_ID";
+        public static readonly string User_Username = "USER_USERNAME";
         private AuthenticationState _defaultUser => new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
 
         public JWTAuthenticationProvider(IJSRuntime js, HttpClient httpClient)
         {
             this._js = js;
             this.httpClient = httpClient;
-        }
-        public async Task<string> GetToken()
-        {
-            var token = await _js.GetFromLocalStorage(Tokenkey);
-            return token;
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
@@ -41,9 +37,10 @@ namespace AwarenessWebApp.Auth
 
             return ConstructAuthenticationState(token);
         }
-        public async Task Login(string token, int medic_id)
+        public async Task Login(string token, int medic_id, string medic_username)
         {
             await _js.SetInLocalStorage(User_ID, medic_id.ToString());
+            await _js.SetInLocalStorage(User_Username, medic_username);
             await _js.SetInLocalStorage(Tokenkey, token);
             var authState = ConstructAuthenticationState(token);
             NotifyAuthenticationStateChanged(Task.FromResult(authState));
@@ -53,6 +50,7 @@ namespace AwarenessWebApp.Auth
             httpClient.DefaultRequestHeaders.Authorization = null;
             await _js.RemoveItem(Tokenkey);
             await _js.RemoveItem(User_ID);
+            await _js.RemoveItem(User_Username);
             NotifyAuthenticationStateChanged(Task.FromResult(_defaultUser));
         }
 
@@ -64,6 +62,12 @@ namespace AwarenessWebApp.Auth
                 return -1;
             }
             return int.Parse(id);
+        }
+
+        public async Task<string> GetUserUserName()
+        {
+            var username = await _js.GetFromLocalStorage(User_Username);
+            return username;
         }
 
         private AuthenticationState ConstructAuthenticationState(string token)

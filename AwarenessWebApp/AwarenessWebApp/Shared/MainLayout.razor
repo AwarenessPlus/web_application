@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject ILoginService loginService
+@inject NavigationManager NavigationManager
 
 <AuthorizeView>
     <Authorized>
@@ -12,14 +13,6 @@
 
             <div class="main">
                 <div class="top-row px-4">
-                    <!--
-        <div class="p-0 bd-highlight">
-        <div class="vr"></div>
-        <a class="btn btn-outline-warning btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="settings">
-            <span class="oi oi-cog" aria-hidden="true" data-toggle="tooltip" href="aboutApplication" title="Configuración"></span>
-        </a>
-    </div>-->
-                    
                     <div class="p-0 bd-highlight">
                         <div class="vr"></div>
                         <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="viewProfile">
@@ -27,12 +20,12 @@
                         </a>
                         <label>Perfil</label>
                     </div>
-                    <h2 style="padding-left: 15px; color: #6368B0;">|</h2>
+                    <h2 style="padding-left: 15px; padding-right: 15px; color: #6368B0; ">|</h2>
                     <div class="p-0 bd-highlight">
                         <div class="vr"></div>
-                        <a class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="">
-                            <span class="oi oi-account-logout" aria-hidden="true" data-toggle="tooltip" title="Cerrar Sesión" @onclick="logoutAuthentication"></span>
-                        </a>
+                        <button class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="logoutAuthentication">
+                            <span class="oi oi-account-logout" aria-hidden="true" data-toggle="tooltip" title="Cerrar Sesión"></span>
+                        </button>
                         <label>Cerrar Sesión</label>
                     </div>
                 </div>
@@ -44,8 +37,9 @@
     </Authorized>
 </AuthorizeView>
 @code{
-    private async Task logoutAuthentication()
+    protected void logoutAuthentication()
     {
-        await loginService.Logout();
+        loginService.Logout();
+        NavigationManager.NavigateTo("", true);
     }
 }

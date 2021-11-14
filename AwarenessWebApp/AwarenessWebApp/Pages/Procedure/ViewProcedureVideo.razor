@@ -19,8 +19,9 @@
     [Parameter]
     public string? Procedure_ID { get; set; }
     protected string Video_src;
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-       Video_src= "https://databaseservicesawareness.azurewebsites.net/api/procedures/get-video/" + Procedure_ID;
+        Video_src= "https://databaseservicesawareness.azurewebsites.net/api/procedures/get-video/" + Procedure_ID;
+        return base.OnInitializedAsync();
     }
 }

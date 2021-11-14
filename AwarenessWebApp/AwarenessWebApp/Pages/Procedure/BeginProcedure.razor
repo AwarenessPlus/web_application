@@ -2,6 +2,8 @@
 @page "/beginProcedure"
 @inject UserState UserState
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
 <style>
 
     .shape-button {
@@ -41,6 +43,10 @@
         font-size: 2rem;
         color: #6368B0;
     }
+    .error-text {
+        text-align: left;
+        color: red;
+    }
 </style>
 <AuthorizeView>
     <Authorized>
@@ -53,26 +59,37 @@
                         <ProcedureSteps />
                     </div>
                 </div>
+
                 <div class="col-xl-7 my-auto">
-                    @if (disabled == true)
+                    @if (!string.IsNullOrEmpty(errorMessage))
                     {
-                        <div class="shape-button">
-                            <div class="shape-button-invert" @onclick="beginProcedureBtn">
-                                <center>
-                                    <span class="oi oi-media-play xl-icon" aria-hidden="true" data-toggle="tooltip" title="Iniciar "></span>
-                                    <br />
-                                    <h1>Iniciar Procedimiento</h1>
-                                </center>
-                            </div>
+                        <h6 style="text-align: center;" class="error-text"> @errorMessage</h6>
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-lg btn-block" @onclick="confirmBeginProcedure">Volver a intentar</button>
                         </div>
                     }
-                    else
-                    {
-                        <h2 style="text-align: center;">¿Está seguro?</h2>
-                        <div class="d-flex justify-content-around bd-highlight">
-                            <a class="btn btn-success p-2 bd-highlight" href="inProgressProcedure" @onclick="confirmBeginProcedure">Continuar</a>
-                            <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelBeginProcedure">Cancelar</div>
-                        </div>
+                    else {
+                        @if (disabled == true)
+                        {
+                            <div class="shape-button">
+                                <div class="shape-button-invert" @onclick="beginProcedureBtn">
+                                    <center>
+                                        <span class="oi oi-media-play xl-icon" aria-hidden="true" data-toggle="tooltip" title="Iniciar "></span>
+                                        <br />
+                                        <h1>Iniciar Procedimiento</h1>
+                                    </center>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h2 style="text-align: center;">¿Está seguro de iniciar el procedimiento?</h2>
+                            <h6 style="text-align: center;">Verifique que tiene todo lo necesario para poder realizar el procedimiento</h6>
+                            <div class="d-flex justify-content-around bd-highlight">
+                                <button class="btn btn-success p-2 bd-highlight" @onclick="confirmBeginProcedure">Continuar</button>
+                                <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelBeginProcedure">Cancelar</div>
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -91,33 +108,52 @@
     }
     private async void confirmBeginProcedure()
     {
-        var url_hololens = "https://hololenscommunicationserviceawareness.azurewebsites.net/api/hololens-communication-service/set-procedure-data?IdProcedure=" + UserState.ProcedureId;
-        var url_monitor = "http://10.195.23.82/AwarenessPlus/MonitorService/connect";
-        response_hololens = await HttpClient.PostAsync(url_hololens, null);
-        response_monitor = await HttpClient.GetAsync(url_monitor);
+        var url_hololens = "https://hololenscommunicationserviceawareness.azurewebsites.net/api/hololens-communication-service/set-procedure-data?IdProcedure=" + UserState.CurrentProcedureDTO.ProcedureID;
+        var url_monitor = "https://awarenessmonitorscomunication.azurewebsites.net/connect";
+        try
+        {
+            response_hololens = await HttpClient.PostAsync(url_hololens, null);
+            response_monitor = await HttpClient.GetAsync(url_monitor);
+            var response_str_hololens = await response_hololens.Content.ReadAsStringAsync();
+            var response_str_monitor = await response_monitor.Content.ReadAsStringAsync();
 
-        if (!response_hololens.IsSuccessStatusCode) {
-            errorMessage = response_hololens.ReasonPhrase;
-            Console.WriteLine($"There was an error! {errorMessage}");
-            return;
+            if (!string.IsNullOrEmpty(response_str_hololens)) {
+                if (!response_hololens.IsSuccessStatusCode || !response_str_hololens.Equals(UserState.CurrentProcedureDTO.ProcedureID.ToString()))
+                {
+                    errorMessage = "Error al conectar con las gafas, vuelva a intentarlo Codigo de error: "+response_hololens.ReasonPhrase;
+                    Console.WriteLine($"There was an error! {errorMessage}");
+                    StateHasChanged();
+                    return;
+                }
+            }
+            if (!string.IsNullOrEmpty(response_str_monitor))
+            {
+                if (!response_monitor.IsSuccessStatusCode)
+                {
+                    errorMessage = "Error al conectar con el monitor, verfique que se halla terminado el procedimiento desde las gafas Codigo de error: " + response_monitor.ReasonPhrase;
+                    Console.WriteLine($"There was an error! {errorMessage}");
+                    StateHasChanged();
+                    return;
+                }
+            }
+            UserState.onlyCurrentStep(5);
+            NavigationManager.NavigateTo("/inProgressProcedure");
         }
-        if (!response_monitor.IsSuccessStatusCode){
-            errorMessage = response_monitor.ReasonPhrase;
-            Console.WriteLine($"There was an error! {errorMessage}");
-            return;
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
         }
     }
-
     private void cancelBeginProcedure()
     {
         disabled = true;
     }
     protected override Task OnInitializedAsync()
     {
-        //Set active procedure step
-        UserState.nextStepActive(4);
-
+        if (UserState.ProcedureSteps[4].active != "active")
+        {
+            NavigationManager.NavigateTo("/enterPatientData");
+        }
         return base.OnInitializedAsync();
     }
-
 }

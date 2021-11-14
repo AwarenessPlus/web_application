@@ -1,6 +1,8 @@
 ﻿@page "/home"
 @inject NavigationManager NavigationManager
 @inject UserState UserState
+@inject HttpClient HttpClient
+@inject ILoginService loginService
 
 <style>
     .shape-button {
@@ -12,6 +14,7 @@
         margin: 0 auto;
         vertical-align: middle;
     }
+
     .shape-button-invert {
         display: table-cell;
         background: #ffffff;
@@ -23,9 +26,9 @@
         transform: rotateY(180deg);
     }
 
-    .shape-button-invert:hover {
-        background: #C2E0B1;
-    }
+        .shape-button-invert:hover {
+            background: #C2E0B1;
+        }
 
     .xl-icon {
         transform: rotateY(180deg);
@@ -45,7 +48,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 justify-content-center">
-                    <NavLink class="nav-link" href="enterPatientData" Match="NavLinkMatch.All" @onclick="resetProcedure">
+                    <NavLink class="nav-link" href=@UserState.CurrentStep Match="NavLinkMatch.All">
                         <div class="shape-button">
                             <div class="shape-button-invert">
                                 <center>
@@ -73,9 +76,34 @@
         </div>
     </Authorized>
 </AuthorizeView>
-@code {
-    private void resetProcedure()
+
+@code{
+
+    protected async override Task OnInitializedAsync()
     {
-        UserState.resetData();
+        await getUserInformation();
     }
+
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        StateHasChanged();
+    }
+
 }

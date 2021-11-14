@@ -2,6 +2,7 @@
 @inject HttpClient HttpClient
 @inject UserState UserState
 @inject IJSRuntime JSRuntime
+@inject ILoginService loginService
 @inject NavigationManager NavigationManager
 
 <style>
@@ -42,9 +43,9 @@
                                     <td>@procedure.ProcedureDate.ToShortDateString()</td>
                                     <td>@procedure.PatientInfo.getFullName()</td>
                                     <td>
-                                        <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="() => playProcedureVideo(procedure.ProcedureID)">
+                                        <button class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="() => playProcedureVideo(procedure.ProcedureID)">
                                             <span class="oi oi-play-circle" aria-hidden="true" data-toggle="tooltip" title="Reproducir Video"></span>
-                                        </a>
+                                        </button>
                                         <a class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="() => deleteProcedure(procedure.ProcedureID)" href="home">
                                             <span class="oi oi-trash" aria-hidden="true" data-toggle="tooltip" title="Eliminar Video"></span>
                                         </a>
@@ -66,21 +67,35 @@
 </AuthorizeView>
 @code {
     private ProcedureDTO[] procedures;
+    private string _str_user_id;
     private string anyProcedures;
     protected override async Task OnInitializedAsync()
     {
-        var url_procedure = "https://databaseservicesawareness.azurewebsites.net/api/procedures/" + UserState.LoggedMedic.MedicID;
-        HttpResponseMessage response_get = await HttpClient.GetAsync(url_procedure);
+        await getUserInformation();
+        var user_id = await loginService.GetUserId();
+        _str_user_id = user_id.ToString();
+        if (!string.IsNullOrEmpty(_str_user_id))
+        {
+            var url_procedure = "https://databaseservicesawareness.azurewebsites.net/api/procedures/" + _str_user_id;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_procedure);
 
-        if (response_get.IsSuccessStatusCode)
-        {
-            string response_content = await response_get.Content.ReadAsStringAsync();
-            procedures = JsonConvert.DeserializeObject<ProcedureDTO[]>(response_content);
-        }
-        else
-        {
-            procedures = new ProcedureDTO[0];
-            anyProcedures = "No tienes procedimientos asociados";
+                if (response_get.IsSuccessStatusCode)
+                {
+                    string response_content = await response_get.Content.ReadAsStringAsync();
+                    procedures = JsonConvert.DeserializeObject<ProcedureDTO[]>(response_content);
+                }
+                else
+                {
+                    procedures = new ProcedureDTO[0];
+                    anyProcedures = "No tienes procedimientos asociados";
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
     private async Task deleteProcedure(int selectedProcedureID)
@@ -88,10 +103,39 @@
         if (!await AwarenessWebApp.Helpers.JSRuntimeExtensions.Confirm(JSRuntime, "¿Desea eliminar el procedimiento ?"))
             return;
         var url_delete = "https://databaseservicesawareness.azurewebsites.net/api/procedures/" + selectedProcedureID;
-        HttpResponseMessage response_delete = await HttpClient.DeleteAsync(url_delete);
+        try
+        {
+            HttpResponseMessage response_delete = await HttpClient.DeleteAsync(url_delete);
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+        }
     }
     private void playProcedureVideo(int selectedProcedureID)
     {
         NavigationManager.NavigateTo("/viewProcedureVideo/" + selectedProcedureID);
     }
+
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+    }
+
 }

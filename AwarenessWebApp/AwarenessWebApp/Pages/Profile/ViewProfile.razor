@@ -22,63 +22,93 @@
                 No se pudo actualizar su perfil, por favor intente nuevamente :(
             </div>
         }
-    <div class="container">
-        <div class="row">
-            <h2>Nombre: @UserState.LoggedMedic.FirstName</h2>
-        </div>
-        <div class="row">
-            <h2>Apellido: @UserState.LoggedMedic.LastName</h2>
-        </div>
-        <div class="row">
-            <h2>Edad: @UserState.LoggedMedic.Age</h2>
-        </div>
-        <div class="row">
-            <h2>Username: @UserState.LoggedMedic.Username</h2>
-        </div>
-        <div class="row">
-            <h2>Semestre: @UserState.LoggedMedic.Semester</h2>
-        </div>
-        <div class="row">
-            <h2>Rotación: @UserState.LoggedMedic.Rotation</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <a class="btn btn-primary btn-lg btn-block" href="updateProfileInformation">Actualizar Información de Perfil</a>
+        <div class="container">
+            <div class="row">
+                <h2>Nombre: @UserState.LoggedMedic.FirstName</h2>
             </div>
-            <div class="col-md-6">
-                <button class="btn btn-danger btn-lg btn-block" @onclick="deleteProfile">Eliminar Perfil</button>
+            <div class="row">
+                <h2>Apellido: @UserState.LoggedMedic.LastName</h2>
             </div>
-        </div>
-        <!--<p>@variable</p>-->
-        <p>@token</p>
+            <div class="row">
+                <h2>Edad: @UserState.LoggedMedic.Age</h2>
+            </div>
+            <div class="row">
+                <h2>Username: @UserState.LoggedMedic.Username</h2>
+            </div>
+            <div class="row">
+                <h2>Semestre: @UserState.LoggedMedic.Semester</h2>
+            </div>
+            <div class="row">
+                <h2>Rotación: @UserState.LoggedMedic.Rotation</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-primary btn-lg btn-block" href="updateProfileInformation">Actualizar Información de Perfil</a>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-danger btn-lg btn-block" @onclick="deleteProfile">Eliminar Perfil</button>
+                </div>
+            </div>
 
-    </div>
+        </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-        int variable = -2;
-        string token;
-        [Parameter]
-        public string ? Msg { get; set; }
+    [Parameter]
+    public string? Msg { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        variable = await loginService.GetUserId();
-
-        var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
-        HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
-        string response_body = await response_get.Content.ReadAsStringAsync();
-        UserState.stringResponseJsonConvertMedic(response_body);
+        await getUserInformation();
+        try
+        {
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+            string response_body = await response_get.Content.ReadAsStringAsync();
+            UserState.stringResponseJsonConvertMedic(response_body);
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+        }
     }
     async Task deleteProfile()
     {
         if (!await AwarenessWebApp.Helpers.JSRuntimeExtensions.Confirm(JSRuntime, "¿Esta seguro de eliminar su perfil?"))
             return;
         var url_delete = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/" + UserState.UserName;
-        HttpResponseMessage response_delete = await HttpClient.DeleteAsync(url_delete);
-        await loginService.Logout();
-        NavigationManager.NavigateTo("");
+        try
+        {
+            HttpResponseMessage response_delete = await HttpClient.DeleteAsync(url_delete);
+            await loginService.Logout();
+            NavigationManager.NavigateTo("");
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        StateHasChanged();
     }
 
 }

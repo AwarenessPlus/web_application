@@ -126,13 +126,21 @@
     }
     private async Task getPatientData()
     {
-        var patient_url = "https://databaseservicesawareness.azurewebsites.net/api/patients/" + UserState.CurrentProcedureDTO.PatientInfo.DocumentID;
-        HttpResponseMessage response_get = await HttpClient.GetAsync(patient_url);
 
-        if (response_get.IsSuccessStatusCode)
+        var patient_url = "https://databaseservicesawareness.azurewebsites.net/api/patients/" + UserState.CurrentProcedureDTO.PatientInfo.DocumentID;
+        try
         {
-            string response_body = await response_get.Content.ReadAsStringAsync();
-            UserState.CurrentProcedureDTO.PatientInfo = JsonConvert.DeserializeObject<PatientDTO>(response_body);
+            HttpResponseMessage response_get = await HttpClient.GetAsync(patient_url);
+
+            if (response_get.IsSuccessStatusCode)
+            {
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.CurrentProcedureDTO.PatientInfo = JsonConvert.DeserializeObject<PatientDTO>(response_body);
+            }
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
         }
     }
 

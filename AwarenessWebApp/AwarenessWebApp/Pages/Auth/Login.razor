@@ -1,8 +1,8 @@
 ﻿@layout LoginLayout
 @inject UserState UserState
 @inject NavigationManager NavigationManager
-@inject HttpClient HttpClient
 @inject ILoginService loginService
+@inject HttpClient HttpClient
 
 @page "/"
 
@@ -59,7 +59,7 @@
                                     <a href="/signup" class="link-primary">No tengo cuenta</a>
                                 </div>
                             </div>
-                            <button class="btn btn-outline-primary rounded-pill btn-block" type="submit" role="button" @onclick="loginAuthentication">Iniciar Sesión</button>
+                            <button class="btn btn-outline-primary rounded-pill btn-block @disable_btn" type="submit" role="button" @onclick="loginAuthentication">@waitingMsg</button>
                         </EditForm>
 
                     </div>
@@ -76,32 +76,52 @@
         public int statusCode;
     }
 
-    AuthDTO authDTO = new AuthDTO();
-    ResponseOutput responseOutput;
-    HttpResponseMessage response;
+    private AuthDTO authDTO = new AuthDTO();
+    private ResponseOutput responseOutput;
+    private HttpResponseMessage response;
+    private string waitingMsg = "Iniciar Sesión";
+    private string disable_btn = "";
+
 
     private async Task loginAuthentication()
     {
-        responseOutput.msg=null;
+        responseOutput.msg = null;
+        waitingMsg = "Cargando...";
+        disable_btn = "disabled";
+        string user_username;
         var auth = JsonContent.Create(authDTO);
         var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/auth";
-        response = await HttpClient.PostAsync(url, auth);
-        responseOutput.statusCode = (int)response.StatusCode;
+        try
+        {
+            response = await HttpClient.PostAsync(url, auth);
+            responseOutput.statusCode = (int)response.StatusCode;
 
-        if (responseOutput.statusCode != 200 )
-        {
-            //Invalid User
-            responseOutput.msg = "Usuario o contraseña incorrectos";
+            if (responseOutput.statusCode != 200)
+            {
+                //Invalid User
+                responseOutput.msg = "Usuario o contraseña incorrectos";
+            }
+            else
+            {
+                UserState.UserName = authDTO.UserName;
+                var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+                await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID, UserState.UserName);
+                UserState.CurrentStep = "/enterPatientData";
+                NavigationManager.NavigateTo("home");
+            }
         }
-        else
+        catch (HttpRequestException e)
         {
-            UserState.UserName = authDTO.UserName;
-            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/"+UserState.UserName;
-            HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
-            string response_body = await response_get.Content.ReadAsStringAsync();
-            UserState.stringResponseJsonConvertMedic(response_body);
-            await loginService.Login(await response.Content.ReadAsStringAsync(),UserState.LoggedMedic.MedicID);
-            NavigationManager.NavigateTo("home");
+            Console.WriteLine(e);
         }
+    }
+    protected override void OnInitialized()
+    {
+
+        loginService.Logout();
+        base.OnInitialized();
     }
 }

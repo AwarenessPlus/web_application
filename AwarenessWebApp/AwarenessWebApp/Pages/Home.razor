@@ -1,0 +1,109 @@
+﻿@page "/home"
+@inject NavigationManager NavigationManager
+@inject UserState UserState
+@inject HttpClient HttpClient
+@inject ILoginService loginService
+
+<style>
+    .shape-button {
+        display: table-cell;
+        background: #6368B0;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+
+    .shape-button-invert {
+        display: table-cell;
+        background: #ffffff;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+        transform: rotateY(180deg);
+    }
+
+        .shape-button-invert:hover {
+            background: #C2E0B1;
+        }
+
+    .xl-icon {
+        transform: rotateY(180deg);
+        vertical-align: middle;
+        font-size: 10rem;
+        color: #6368B0;
+    }
+
+    h1 {
+        transform: rotateY(180deg);
+        font-size: 2rem;
+        color: #6368B0;
+    }
+</style>
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 justify-content-center">
+                    <NavLink class="nav-link" href=@UserState.CurrentStep Match="NavLinkMatch.All">
+                        <div class="shape-button">
+                            <div class="shape-button-invert">
+                                <center>
+                                    <span class="oi oi-play-circle xl-icon" aria-hidden="true" data-toggle="tooltip" title="Iniciar Procedimiento"></span>
+                                    <h1>Iniciar Procedimiento</h1>
+                                </center>
+                            </div>
+                        </div>
+                    </NavLink>
+                </div>
+
+                <div class="col-xl-6 justify-content-center">
+                    <NavLink class="nav-link" href="viewProcedures" Match="NavLinkMatch.All">
+                        <div class="shape-button">
+                            <div class="shape-button-invert">
+                                <center>
+                                    <span class="oi oi-eye xl-icon" aria-hidden="true" data-toggle="tooltip" title="Ver Procedimientos"></span>
+                                    <h1>Ver Procedimientos</h1>
+                                </center>
+                            </div>
+                        </div>
+                    </NavLink>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code{
+
+    protected async override Task OnInitializedAsync()
+    {
+        await getUserInformation();
+    }
+
+    private async Task getUserInformation()
+    {
+        if (string.IsNullOrEmpty(UserState.UserName))
+        {
+            UserState.CurrentProcedureDTO.MedicID = await loginService.GetUserId();
+            UserState.UserName = await loginService.GetUserUserName();
+            UserState.CurrentStep = "/enterPatientData";
+            var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
+            try
+            {
+                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
+                string response_body = await response_get.Content.ReadAsStringAsync();
+                UserState.stringResponseJsonConvertMedic(response_body);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        StateHasChanged();
+    }
+
+}

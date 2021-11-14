@@ -1,0 +1,65 @@
+﻿@layout MainLayout
+@page "/inProgressProcedure"
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <style>
+            .center {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
+        </style>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 my-auto">
+                    <div class="procedureSteps">
+                        <ProcedureSteps />
+                    </div>
+                </div>
+                <div class="col-xl-7 my-auto">
+                    @if (!finalized)
+                    {
+                        <h1 style="text-align: center;"> Procedimiento en curso</h1>
+                        <img src="./img/loadingButton-unscreen.gif" class="img-fluid center" />
+                        <div class="col-md-12">
+                            <buttom class="btn btn-success btn-lg btn-block" @onclick="finishProcedure">Volver a Inicio<span class="oi oi-home" style="padding-left: 10px;"></span></buttom>
+                        </div>
+                    }
+                    else
+                    {
+                        <!--
+                        <h2 style="text-align: center;"> ¿Desea terminar el procedimiento?</h2>
+                        <h2 style="text-align: center;"> Si lo hace se guardarán los cambios</h2>
+                        <div class="d-flex justify-content-around bd-highlight">
+                            <a class="btn btn-success p-2 bd-highlight" href="home" @onclick="confirmEndProcedure"> Si</a>
+                            <div class="btn btn-danger p-2 bd-highlight" @onclick="cancelEndProcedure"> No</div>
+                        </div>-->
+                    }
+                </div>
+
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    private bool finalized = false;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (UserState.ProcedureSteps[5].active != "active")
+        {
+            NavigationManager.NavigateTo("/enterPatientData");
+        }
+
+        return base.OnInitializedAsync();
+    }
+    private void finishProcedure()
+    {
+        UserState.resetData();
+        NavigationManager.NavigateTo("/home");
+    }
+}

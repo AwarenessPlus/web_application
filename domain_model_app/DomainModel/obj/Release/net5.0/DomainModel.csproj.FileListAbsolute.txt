@@ -1,0 +1,11 @@
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\bin\Release\net5.0\DomainModel.deps.json
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\bin\Release\net5.0\DomainModel.dll
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\bin\Release\net5.0\ref\DomainModel.dll
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\bin\Release\net5.0\DomainModel.pdb
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.GeneratedMSBuildEditorConfig.editorconfig
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.AssemblyInfoInputs.cache
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.AssemblyInfo.cs
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.csproj.CoreCompileInputs.cache
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.dll
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\ref\DomainModel.dll
+D:\U\2021\2021-02\Tesis\web_application\domain_model_app\DomainModel\obj\Release\net5.0\DomainModel.pdb

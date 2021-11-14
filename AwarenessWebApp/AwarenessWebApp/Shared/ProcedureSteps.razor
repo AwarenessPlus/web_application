@@ -1,0 +1,15 @@
+﻿@inherits LayoutComponentBase
+@inject UserState UserState
+
+<style>
+
+</style>
+
+<div class="btn-group-vertical" style="width: 100%;">
+    @foreach(var btn_item in UserState.ProcedureSteps){
+        <a class="btn btn-outline-primary btn-block @btn_item.status @btn_item.active" href="@btn_item.reference">@btn_item.msg</a>
+   }
+</div>
+
+
+

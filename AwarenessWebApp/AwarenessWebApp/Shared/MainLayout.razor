@@ -1,17 +1,45 @@
 ﻿@inherits LayoutComponentBase
+@inject ILoginService loginService
+@inject NavigationManager NavigationManager
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<AuthorizeView>
+    <Authorized>
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap" rel="stylesheet">
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <div class="main">
+                <div class="top-row px-4">
+                    <div class="p-0 bd-highlight">
+                        <div class="vr"></div>
+                        <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="viewProfile">
+                            <span class="oi oi-person" aria-hidden="true" data-toggle="tooltip" href="" title="Ver perfil"></span>
+                        </a>
+                        <label>Perfil</label>
+                    </div>
+                    <h2 style="padding-left: 15px; padding-right: 15px; color: #6368B0; ">|</h2>
+                    <div class="p-0 bd-highlight">
+                        <div class="vr"></div>
+                        <button class="btn btn-outline-danger btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" @onclick="logoutAuthentication">
+                            <span class="oi oi-account-logout" aria-hidden="true" data-toggle="tooltip" title="Cerrar Sesión"></span>
+                        </button>
+                        <label>Cerrar Sesión</label>
+                    </div>
+                </div>
+                <div class="content px-4">
+                    @Body
+                </div>
+            </div>
         </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+    </Authorized>
+</AuthorizeView>
+@code{
+    protected void logoutAuthentication()
+    {
+        loginService.Logout();
+        NavigationManager.NavigateTo("", true);
+    }
+}

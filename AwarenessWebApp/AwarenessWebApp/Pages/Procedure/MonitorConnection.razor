@@ -1,0 +1,141 @@
+﻿@layout MainLayout
+@page "/monitorConnection"
+@inject UserState UserState
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<style>
+
+    .shape-button {
+        display: table-cell;
+        background: #6368B0;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+
+    .shape-button-invert {
+        display: table-cell;
+        background: #ffffff;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+        transform: rotateY(180deg);
+    }
+
+        .shape-button-invert:hover {
+            background: #C2E0B1;
+        }
+
+    .xl-icon {
+        transform: rotateY(180deg);
+        vertical-align: middle;
+        font-size: 10rem;
+        color: #6368B0;
+    }
+
+    h1 {
+        transform: rotateY(180deg);
+        font-size: 2rem;
+        color: #6368B0;
+        padding-top: 2rem;
+    }
+
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+    .error-text {
+        text-align: left;
+        color: red;
+    }
+</style>
+<AuthorizeView>
+    <Authorized>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 my-auto">
+                    <div class="procedureSteps">
+                        <ProcedureSteps />
+                    </div>
+                </div>
+                <div class="col-xl-7 my-auto">
+                    @if (monitorStatus == "disconnected")
+                    {
+                        <div class="shape-button">
+                            <div class="shape-button-invert" @onclick="monitorConnection">
+                                <center>
+                                    <span class="oi oi-monitor xl-icon" aria-hidden="true" data-toggle="tooltip" title="Conectar Monitor"></span>
+                                    <br />
+                                    <h1>Conectar Monitor</h1>
+                                </center>
+                            </div>
+                        </div>
+                    }
+                    @if (monitorStatus == "connecting")
+                    {
+                        <img src="./img/loadingButton-unscreen.gif" class="img-fluid center" />
+                    }
+                    @if (monitorStatus == "connected")
+                    {
+                        <img src="./img/check.png" class="img-fluid center" />
+                        <br />
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-lg btn-block" @onclick="continueNextStep">Continuar</button>
+                        </div>
+                    }
+                    @if (monitorStatus == "disabled")
+                    {
+                        <h2 class="error-text">Error en el acceso al servicio de conexión con monitor</h2>
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-lg btn-block" @onclick="monitorConnection">Volver a intentar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+@code {
+    private string monitorStatus = "disconnected";
+    private async void monitorConnection()
+    {
+        monitorStatus = "connecting";
+        var url = UserState.Url_monitor_service + "/health-status";
+        try
+        {
+            HttpResponseMessage response_get = await HttpClient.GetAsync(url);
+            if (response_get.IsSuccessStatusCode)
+            {
+                monitorStatus = "connected";
+            }
+        }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine(e);
+            monitorStatus = "disabled";
+        }
+        StateHasChanged();
+    }
+    protected override Task OnInitializedAsync()
+    {
+        if (UserState.ProcedureSteps[2].active != "active")
+        {
+            NavigationManager.NavigateTo("/enterPatientData");
+        }
+        return base.OnInitializedAsync();
+    }
+    private void continueNextStep()
+    {
+        //Set active procedure step
+        UserState.onlyCurrentStep(3);
+        NavigationManager.NavigateTo("/hololensConnection");
+    }
+}

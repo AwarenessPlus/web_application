@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AwarenessWebApp.Pages.Auth
+namespace AwarenessWebApp.Pages.Info
 {
     #line hidden
     using System;
@@ -139,79 +139,14 @@ using System.Net.Http.Headers;
 #line hidden
 #nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(LoginLayout))]
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Login : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/healthInformation")]
+    public partial class HealthInformation : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 71 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\Pages\Auth\Login.razor"
-       
-
-    struct ResponseOutput
-    {
-        public string msg;
-        public int statusCode;
-    }
-
-    private AuthDTO authDTO = new AuthDTO();
-    private ResponseOutput responseOutput;
-    private HttpResponseMessage response;
-    private string waitingMsg = "Iniciar Sesión";
-    private string disable_btn = "";
-
-
-    private async Task loginAuthentication()
-    {
-        responseOutput.msg = null;
-        waitingMsg = "Cargando...";
-        disable_btn = "disabled";
-        var auth = JsonContent.Create(authDTO);
-        var url = "https://authenticationserviceawareness.azurewebsites.net/api/authentications/auth";
-        try
-        {
-            response = await HttpClient.PostAsync(url, auth);
-            responseOutput.statusCode = (int)response.StatusCode;
-
-            if (responseOutput.statusCode != 200)
-            {
-                //Invalid User
-                responseOutput.msg = "Usuario o contraseña incorrectos";
-            }
-            else
-            {
-                UserState.UserName = authDTO.UserName;
-                var url_medic = "https://databaseservicesawareness.azurewebsites.net/api/medics/" + UserState.UserName;
-                HttpResponseMessage response_get = await HttpClient.GetAsync(url_medic);
-                string response_body = await response_get.Content.ReadAsStringAsync();
-                UserState.stringResponseJsonConvertMedic(response_body);
-                await loginService.Login(await response.Content.ReadAsStringAsync(), UserState.LoggedMedic.MedicID, UserState.UserName);
-                UserState.CurrentStep = "/enterPatientData";
-                NavigationManager.NavigateTo("home");
-            }
-        }
-        catch (HttpRequestException e)
-        {
-            Console.WriteLine(e);
-        }
-    }
-    protected override void OnInitialized()
-    {
-
-        loginService.Logout();
-        base.OnInitialized();
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient HttpClient { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ILoginService loginService { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private UserState UserState { get; set; }
     }
 }
 #pragma warning restore 1591

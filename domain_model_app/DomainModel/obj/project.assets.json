@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
+      "projectUniqueName": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\ultimo commit\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
       "projectName": "DomainModel",
-      "projectPath": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
+      "projectPath": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\ultimo commit\\web_application\\domain_model_app\\DomainModel\\DomainModel.csproj",
       "packagesPath": "C:\\Users\\Sidecil-PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\web_application\\domain_model_app\\DomainModel\\obj\\",
+      "outputPath": "C:\\Users\\Sidecil-PC\\Documents\\Andres\\Personal\\ultimo commit\\web_application\\domain_model_app\\DomainModel\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Sidecil-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",

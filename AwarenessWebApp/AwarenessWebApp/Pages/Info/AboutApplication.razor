@@ -1,0 +1,99 @@
+﻿@layout LoginLayout
+@page "/aboutApplication"
+
+<style>
+    html, body {
+        background-image: url("../img/login_background.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .shape-button {
+        display: table-cell;
+        background: #6368B0;
+        width: 22rem;
+        height: 22rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+
+    .center-screen {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+    video {
+        width: 100%;
+    }
+     .shape-button-invert {
+        display: table-cell;
+        background: #ffffff;
+        width: 22rem;
+        height: 22rem;
+        border-radius: 23% 77% 65% 35% / 30% 44% 56% 70%;
+        margin: 0 auto;
+        vertical-align: middle;
+        transform: rotateY(180deg);
+    }
+      .shape-button-invert:hover {
+            background: #C2E0B1;
+        }
+      .xl-icon {
+        transform: rotateY(180deg);
+        vertical-align: middle;
+        font-size: 7rem;
+        color: #6368B0;
+    }
+
+    h2 {
+        transform: rotateY(180deg);
+        font-size: 1.2rem;
+        color: #6368B0;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-4 justify-content-center">
+            <NavLink class="nav-link" href="/appInformation" Match="NavLinkMatch.All">
+                <div class="shape-button">
+                    <div class="shape-button-invert">
+                        <center>
+                            <span class="oi oi-question-mark xl-icon" aria-hidden="true" data-toggle="tooltip" title="Ver información del software"></span>
+                            <h2 style="padding-top: 30px;">Ver información del software</h2>
+                        </center>
+                    </div>
+                </div>
+            </NavLink>
+        </div>
+        
+        <div class="col-xl-4 justify-content-center">
+            <NavLink class="nav-link" href="/healthInformation" Match="NavLinkMatch.All">
+                <div class="shape-button">
+                    <div class="shape-button-invert">
+                        <center>
+                            <span class="oi oi-medical-cross xl-icon" aria-hidden="true" data-toggle="tooltip" title="Ver información de salud"></span>
+                            <h2 style="padding-top: 30px;">Ver información de salud</h2>
+                        </center>
+                    </div>
+                </div>
+            </NavLink>
+        </div>
+        
+        <div class="col-xl-4 justify-content-center">
+            <NavLink class="nav-link" href="/viewTutorial" Match="NavLinkMatch.All">
+                <div class="shape-button">
+                    <div class="shape-button-invert">
+                        <center>
+                            <span class="oi oi-badge xl-icon" aria-hidden="true" data-toggle="tooltip" title="Ver Procedimientos"></span>
+                            <h2 style="padding-top: 30px;">Ver Tutoriales</h2>
+                        </center>
+                    </div>
+                </div>
+            </NavLink>
+        </div>  
+    </div>
+</div>

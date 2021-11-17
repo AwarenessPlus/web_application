@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AwarenessWebApp.Pages
+namespace AwarenessWebApp.Pages.Info
 {
     #line hidden
     using System;
@@ -147,19 +147,6 @@ using System.Net.Http.Headers;
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 119 "C:\Users\Sidecil-PC\Documents\Andres\Personal\web_application\AwarenessWebApp\AwarenessWebApp\Pages\AboutApplication.razor"
-      
-    private string[] login_video_src;
-
-    protected override void OnInitialized()
-    {
-        login_video_src = System.IO.Directory.GetFiles("./");
-    }
-
-#line default
-#line hidden
-#nullable disable
     }
 }
 #pragma warning restore 1591

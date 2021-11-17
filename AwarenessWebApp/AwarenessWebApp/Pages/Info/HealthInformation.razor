@@ -1,0 +1,41 @@
+﻿@layout LoginLayout
+@page  "/healthInformation"
+
+<style>
+    html, body {
+        background-image: url("../img/login_background.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: 'Quicksand', sans-serif;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <center>
+                    <h1>Información de Salud</h1>
+                    <p>
+                        Advertencia: En su primer uso, las gafas pueden provocar mareo leve, nauseas, fatiga ocular, dolor de cabeza, ojos secos, entre otras.
+                        Se recomienta utilizar las gafas una o dos veces antes para acostumbrarse a los hologramas proyectados.
+                        Si no se tiene experiencia con las gafas HoloLens se recomienda iniciar el tutorial encontrado en el menu de aplicaciones de HoloLens llamado "".
+                        La tecnología de 3D estereoscópico requiere de una buena vision binocular. Para Operar las gafas se requiere una condicion fisica idonea para moverse e interacturar con la interfaz de usuario.
+                        Si el usuario tiene historial de epilepsia es recomendado no ser utilizado. Dado que la aplicación puede provocar ataques epilepticos fotosensibles
+                    </p>
+                </center>
+                <div class="d-flex flex-row bd-highlight">
+                    <a class="btn btn-outline-success btn-sm rounded-circle align-self-start p-2 bd-highlight btn-symmetric" href="">
+                        <span class="oi oi-chevron-left" style="font-size: 1.2rem" aria-hidden="true" data-toggle="tooltip"></span>
+                    </a>
+                    <div class="p-2 bd-highlight">Volver</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+}
+
